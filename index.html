@@ -2,1393 +2,761 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Antion | NT-01 Smart Home Controller</title>
-    <meta name="description"
-        content="NT-01 is a premium smart home controller engineered to redefine modern interiors through intelligent design.">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Google Font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<title>INTENYTE | NT-1</title>
 
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
-        rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <!-- Tailwind -->
-    <script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <!-- Swiper -->
-    <link
-        rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css">
 
 </head>
 
 <body>
 
-    <!-- ======================================
-            Cursor
-    ======================================= -->
+<!--==============================
+BACKGROUND
+===============================-->
 
-    <div class="cursor"></div>
+<div class="bg-grid"></div>
+<div class="bg-glow glow-1"></div>
+<div class="bg-glow glow-2"></div>
 
-    <!-- ======================================
-            Loading Screen
-    ======================================= -->
+<!--==============================
+HEADER
+===============================-->
 
-    <!-- <div id="loader">
+<header class="header">
 
-        <div class="loader-content">
+<nav class="navbar">
 
-            <img src="img/INTENYTE--LOGO.png" alt="Logo">
+<a href="#" class="logo">
+NT-01
+</a>
 
-            <div class="loader-line">
-                <span></span>
-            </div>
+<ul class="nav-links" id="navLinks">
 
-            <p>Preparing the experience</p>
+<li><a href="#">Home</a></li>
 
-        </div>
+<li><a href="#features">Features</a></li>
 
-    </div> -->
+<li><a href="#gallery">Gallery</a></li>
 
-    <!-- ======================================
-            Navigation
-    ======================================= -->
+<li><a href="#booking">Booking</a></li>
 
-    <header class="navbar">
+<li class="mobile-nav-cta">
+<a href="#booking" class="nav-btn">Pre Order</a>
+</li>
 
-        <div class="container">
+</ul>
 
-            <a href="#" class="logo">
+<a href="#booking" class="nav-btn desktop-nav-btn">
+Pre Order
+</a>
 
-                <img src="img/INTENYTE--LOGO.png" alt="Antion">
+<button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation" aria-expanded="false">
+<span></span>
+<span></span>
+<span></span>
+</button>
 
-            </a>
+</nav>
 
-            <nav>
+</header>
 
-                <a href="#features">Features</a>
-                <a href="#experience">Experience</a>
-                <a href="#gallery">Gallery</a>
-                <a href="#reserve">Reserve</a>
+<!--==============================
+HERO
+===============================-->
 
-            </nav>
+<section class="hero">
 
-            <button class="reserve-btn">
+<div class="hero-overlay"></div>
 
-                Reserve
+<div class="hero-content">
 
-            </button>
+<p class="eyebrow">
 
-        </div>
+INTRODUCING
 
-    </header>
+</p>
 
-    <!-- ======================================
-            HERO
-    ======================================= -->
+<h1>
 
-    <section class="hero">
+The Future of<br>
+Smart Home Control
 
-        <!-- Decorative Background -->
+</h1>
 
-        <div class="hero-bg">
+<p class="hero-text">
 
-            <div class="hero-glow"></div>
+A premium dual display smart dashboard
+crafted for modern homes with timeless
+minimal design.
 
-            <div class="grid-overlay"></div>
+</p>
 
-        </div>
+<div class="hero-buttons">
 
-        <div class="container hero-container">
+<a href="#" class="primary-btn">
 
-            <!-- Hero Text -->
+Explore Product
 
-            <div class="hero-text">
+</a>
 
-                <span class="eyebrow">
+<a href="#" class="secondary-btn">
 
-                    INTRODUCING
+Watch Video
 
-                </span>
+</a>
 
-                <h1 class="split">
+</div>
 
-                    NT-01
+</div>
 
-                </h1>
+<div class="hero-image">
 
-                <h2>
+<img src="img/Hero_image.png"
+alt="NT-01 Hero">
 
-                    Where Design Meets Intelligence.
+</div>
 
-                </h2>
+<div class="scroll-indicator">
 
-                <p>
+<span></span>
 
-                    A premium dual-display smart home controller
-                    crafted for modern interiors.
-                    Every interaction is engineered to feel
-                    elegant, effortless and intelligent.
+<p>
 
-                </p>
+SCROLL
 
-                <div class="hero-buttons">
+</p>
 
-                    <a href="#features" class="primary-btn">
+</div>
 
-                        Discover
+</section>
 
-                    </a>
+<!--==============================
+COMPARISON
+===============================-->
 
-                    <a href="#reserve" class="secondary-btn">
+<section class="comparison">
 
-                        Reserve
+<div class="section-title">
 
-                    </a>
+<p>
 
-                </div>
+TRANSFORMATION
 
-                <div class="scroll-indicator">
+</p>
 
-                    <span></span>
+<h2>
 
-                    <p>Scroll</p>
+From Traditional<br>
+To Intelligent
 
-                </div>
+</h2>
 
-            </div>
+</div>
 
-            <!-- Hero Product -->
+<div class="comparison-grid">
 
-            <div class="hero-product">
+<!-- OLD -->
 
-                <img
-                    src="img/Hero_image.png"
-                    alt="NT-01 Smart Controller"
-                    class="product-image">
+<div class="compare-card">
 
-            </div>
+<div class="compare-image">
 
-        </div>
+<img src="img/comparison.png"
+alt="Old Switchboard">
 
-    </section>
+</div>
 
-    <!-- ======================================
-            Floating Product Detail
-    ======================================= -->
+<div class="compare-content">
 
-    <section class="hero-detail">
+<h3>
 
-        <div class="container">
+Traditional Board
 
-            <div class="detail-grid">
+</h3>
 
-                <div>
+<p>
 
-                    <h3>
+Dummy text describing the
+limitations of old switchboards.
 
-                        Dual Displays
+</p>
 
-                    </h3>
+</div>
 
-                    <p>
+</div>
 
-                        Elegant information at a glance with
-                        beautifully integrated digital displays.
+<!-- NEW -->
 
-                    </p>
+<div class="compare-card featured">
 
-                </div>
+<div class="badge">
 
-                <div>
+NEW
 
-                    <h3>
+</div>
 
-                        Crafted Finish
+<div class="compare-image">
 
-                    </h3>
+<img src="img/Hero_image.png"
+alt="NT-01">
 
-                    <p>
+</div>
 
-                        Premium materials designed to blend
-                        naturally into sophisticated interiors.
+<div class="compare-content">
 
-                    </p>
+<h3>
 
-                </div>
+NT-01 Dashboard
 
-                <div>
+</h3>
 
-                    <h3>
+<p>
 
-                        Intelligent Control
+Dummy text introducing a smarter,
+cleaner and premium experience.
 
-                    </h3>
+</p>
 
-                    <p>
+</div>
 
-                        Control lighting, fans and smart devices
-                        from one beautifully engineered interface.
+</div>
 
-                    </p>
+</div>
 
-                </div>
+</section>
 
-            </div>
+<!--==============================
+FEATURES
+(Continues in Part 2)
+===============================-->
 
-        </div>
+<section class="features" id="features">
 
-    </section>
+<div class="section-title">
 
-    <!-- ======================================
-            Transition Spacer
-    ======================================= -->
+<p>
 
-    <section class="section-spacer">
+WHY NT-01
 
-        <div class="container">
+</p>
 
-            <div class="center-text">
+<h2>
 
-                <span>
+Designed Around<br>
+Real Life
 
-                    Designed to disappear into your wall.
+</h2>
 
-                </span>
+</div>
 
-                <h2 class="split">
+<div class="feature-grid">
+<!-- ==============================
+FEATURE 01
+============================== -->
 
-                    Built to transform your home.
+<div class="feature-card">
 
-                </h2>
+    <div class="feature-image">
+        <img src="img/Features_1.png" alt="Feature One">
+    </div>
 
-            </div>
+    <div class="feature-content">
 
-        </div>
+        <span class="feature-number">01</span>
 
-    </section>
+        <h3>
+            Premium Dual Display
+        </h3>
 
-    <!-- ========= PART 2 STARTS BELOW ========= -->
-    <!-- ======================================
-            BEFORE & AFTER
-    ======================================= -->
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            Integer feugiat, tortor sed gravida suscipit, erat lorem
+            volutpat lorem, vitae efficitur neque lacus vel arcu.
+        </p>
 
-    <section class="before-after" id="comparison">
+    </div>
 
-        <div class="container">
+</div>
 
-            <div class="section-heading">
+<!-- ==============================
+FEATURE 02
+============================== -->
 
-                <span class="section-label">
-                    Before & After
-                </span>
+<div class="feature-card">
 
-                <h2 class="split">
-                    Your Walls Deserve Better.
-                </h2>
+    <div class="feature-image">
+        <img src="img/Features_2.png" alt="Feature Two">
+    </div>
 
-                <p>
-                    Traditional switchboards were designed to disappear.
-                    NT-01 was designed to become part of your home's
-                    architecture. Cleaner. Smarter. More beautiful.
-                </p>
+    <div class="feature-content">
 
-            </div>
+        <span class="feature-number">02</span>
 
-            <div class="comparison-wrapper">
+        <h3>
+            Elegant Minimal Design
+        </h3>
 
-                <div class="comparison-image">
+        <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            Doloribus dignissimos, maxime blanditiis consequatur
+            laboriosam pariatur quas reiciendis.
+        </p>
 
-                    <img src="img/comparison.png"
-                        alt="Before and After Comparison">
+    </div>
 
-                </div>
+</div>
 
-            </div>
+<!-- ==============================
+FEATURE 03
+============================== -->
 
-        </div>
+<div class="feature-card">
 
-    </section>
+    <div class="feature-image">
+        <img src="img/Features_3.png" alt="Feature Three">
+    </div>
 
-    <!-- ======================================
-            FEATURES
-    ======================================= -->
+    <div class="feature-content">
 
-    <section class="features" id="features">
+        <span class="feature-number">03</span>
 
-        <div class="container">
+        <h3>
+            Smart Everyday Experience
+        </h3>
 
-            <div class="section-heading">
+        <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            Quibusdam voluptates saepe architecto impedit,
+            numquam eveniet nostrum.
+        </p>
 
-                <span class="section-label">
+    </div>
 
-                    Features
+</div>
 
-                </span>
+</div>
 
-                <h2 class="split">
+</section>
 
-                    Every Detail,
-                    Carefully Considered.
+<!-- ==============================
+PROBLEM / SOLUTION
+============================== -->
 
-                </h2>
+<section class="solution">
 
-                <p>
+<div class="container">
 
-                    Every function has been engineered to
-                    disappear into a seamless experience,
-                    allowing technology to complement your
-                    home rather than compete with it.
+<div class="section-title">
 
-                </p>
+<p>
+WHY PEOPLE CHOOSE NT-01
+</p>
 
-            </div>
+<h2>
 
-            <div class="feature-grid">
+Built To Solve<br>
+Everyday Problems
 
-                <!-- Feature 01 -->
+</h2>
 
-                <article class="feature-card">
+</div>
 
-                    <div class="feature-image">
+<div class="solution-grid">
 
-                        <img src="images/feature1.jpg"
-                            alt="Dual Display">
+<div class="solution-left">
 
-                    </div>
+<h3>
 
-                    <div class="feature-content">
+What problems does it solve?
 
-                        <span>01</span>
+</h3>
 
-                        <h3>
+<p>
 
-                            Dual Displays
+Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+Quasi rem perspiciatis odit illum excepturi aliquid
+laudantium nemo. Repellendus, unde dolore.
 
-                        </h3>
+</p>
 
-                        <p>
+<p>
 
-                            Two beautifully integrated displays
-                            provide instant access to essential
-                            information while maintaining an
-                            elegant minimal aesthetic.
+Lorem ipsum dolor sit amet consectetur adipisicing elit.
+Autem atque suscipit magni eveniet numquam
+accusantium doloremque.
 
-                        </p>
+</p>
 
-                    </div>
+<a href="#" class="primary-btn">
 
-                </article>
+Learn More
 
-                <!-- Feature 02 -->
+</a>
 
-                <article class="feature-card">
+</div>
 
-                    <div class="feature-image">
+<div class="solution-right">
 
-                        <img src="images/feature2.jpg"
-                            alt="Smart Fan">
+<div class="glass-card">
 
-                    </div>
+<h4>
 
-                    <div class="feature-content">
+Cleaner Interior
 
-                        <span>02</span>
+</h4>
 
-                        <h3>
+<p>
 
-                            Smart Fan Control
+Lorem ipsum dolor sit amet,
+consectetur adipiscing elit.
 
-                        </h3>
+</p>
 
-                        <p>
+</div>
 
-                            Enjoy precise linear fan regulation
-                            with fluid control from both the
-                            touch interface and your smartphone.
+<div class="glass-card">
 
-                        </p>
+<h4>
 
-                    </div>
+Better User Experience
 
-                </article>
+</h4>
 
-                <!-- Feature 03 -->
+<p>
 
-                <article class="feature-card">
+Lorem ipsum dolor sit amet,
+consectetur adipiscing elit.
 
-                    <div class="feature-image">
+</p>
 
-                        <img src="images/feature3.jpg"
-                            alt="Lighting">
+</div>
 
-                    </div>
+<div class="glass-card">
 
-                    <div class="feature-content">
+<h4>
 
-                        <span>03</span>
+Premium Appearance
 
-                        <h3>
+</h4>
 
-                            Intelligent Lighting
+<p>
 
-                        </h3>
+Lorem ipsum dolor sit amet,
+consectetur adipiscing elit.
 
-                        <p>
+</p>
 
-                            Instantly control multiple lighting
-                            zones while preserving a calm,
-                            clutter-free environment.
+</div>
 
-                        </p>
+</div>
 
-                    </div>
+</div>
 
-                </article>
+</div>
 
-                <!-- Feature 04 -->
+</section>
 
-                <article class="feature-card">
+<!-- ==============================
+GALLERY
+============================== -->
 
-                    <div class="feature-image">
+<section class="gallery" id="gallery">
 
-                        <img src="images/feature4.jpg"
-                            alt="Weather">
+<div class="section-title">
 
-                    </div>
+<p>
 
-                    <div class="feature-content">
+SHOWCASE
 
-                        <span>04</span>
+</p>
 
-                        <h3>
+<h2>
 
-                            Live Weather
+Product Gallery
 
-                        </h3>
+</h2>
 
-                        <p>
+</div>
 
-                            View outdoor conditions directly
-                            from the dashboard before stepping
-                            outside.
+<div class="gallery-grid">
 
-                        </p>
+<div class="gallery-item">
+<img src="img/Real_pic1.jpeg" alt="">
+</div>
 
-                    </div>
+<div class="gallery-item">
+<img src="img/Real_pic2.jpeg" alt="">
+</div>
 
-                </article>
+<div class="gallery-item">
+<img src="img/Real_pic3.jpeg" alt="">
+</div>
 
-                <!-- Feature 05 -->
+</div>
 
-                <article class="feature-card">
+</section>
 
-                    <div class="feature-image">
+<!-- ==============================
+BOOKING
+(Continues in Part 3)
+============================== -->
 
-                        <img src="images/feature5.jpg"
-                            alt="Touch Experience">
+<section class="booking" id="booking">
 
-                    </div>
+<div class="booking-box">
 
-                    <div class="feature-content">
+<h2>
 
-                        <span>05</span>
+Experience The Future Today
 
-                        <h3>
+</h2>
 
-                            Touch Experience
+<p>
 
-                        </h3>
+Reserve your NT-01 today and be among the first
+to transform your home with premium smart control.
 
-                        <p>
+</p>
 
-                            Responsive touch interactions
-                            designed to feel deliberate,
-                            satisfying and premium with every
-                            press.
+<div class="booking-buttons">
+<!-- ==============================
+BOOKING BUTTONS
+============================== -->
 
-                        </p>
+<a href="#" class="primary-btn">
 
-                    </div>
+Reserve Now
 
-                </article>
+</a>
 
-                <!-- Feature 06 -->
+<a href="#" class="secondary-btn">
 
-                <article class="feature-card">
+Contact Us
 
-                    <div class="feature-image">
+</a>
 
-                        <img src="images/feature6.jpg"
-                            alt="Premium Build">
+</div>
 
-                    </div>
+</div>
 
-                    <div class="feature-content">
+</section>
 
-                        <span>06</span>
+<!-- ==============================
+NEWSLETTER
+============================== -->
 
-                        <h3>
+<section class="newsletter">
 
-                            Premium Build
+<div class="newsletter-card">
 
-                        </h3>
+<p class="section-tag">
 
-                        <p>
+STAY UPDATED
 
-                            Crafted from refined materials with
-                            exceptional attention to fit,
-                            finish and durability.
+</p>
 
-                        </p>
+<h2>
 
-                    </div>
+Be The First To Know
 
-                </article>
+</h2>
 
-                <!-- Feature 07 -->
+<p>
 
-                <article class="feature-card">
+Subscribe to receive product updates, launch news,
+exclusive previews and future releases.
 
-                    <div class="feature-image">
+</p>
 
-                        <img src="images/feature7.jpg"
-                            alt="Expandable">
+<form class="newsletter-form">
 
-                    </div>
+<input
+type="email"
+placeholder="Enter your email address">
 
-                    <div class="feature-content">
+<button type="submit">
 
-                        <span>07</span>
+Subscribe
 
-                        <h3>
+</button>
 
-                            Expandable System
+</form>
 
-                        </h3>
+</div>
 
-                        <p>
+</section>
 
-                            Built with future expansion in
-                            mind, allowing your smart home to
-                            evolve naturally over time.
+<!-- ==============================
+FOOTER
+============================== -->
 
-                        </p>
+<footer class="footer">
 
-                    </div>
+<div class="footer-top">
 
-                </article>
+<div class="footer-brand">
 
-                <!-- Feature 08 -->
+<h2>
 
-                <article class="feature-card">
+NT-01
 
-                    <div class="feature-image">
+</h2>
 
-                        <img src="images/feature8.jpg"
-                            alt="Dashboard">
+<p>
 
-                    </div>
+The next generation dual display
+smart home dashboard built for
+modern living.
 
-                    <div class="feature-content">
+</p>
 
-                        <span>08</span>
+</div>
 
-                        <h3>
+<div class="footer-links">
 
-                            Real-Time Dashboard
+<h4>
 
-                        </h3>
+Company
 
-                        <p>
+</h4>
 
-                            A beautifully organized interface
-                            providing essential information at
-                            a glance without visual clutter.
+<a href="#">Home</a>
 
-                        </p>
+<a href="#">About</a>
 
-                    </div>
+<a href="#">Features</a>
 
-                </article>
+<a href="#">Gallery</a>
 
-            </div>
+<a href="#">Booking</a>
 
-        </div>
+</div>
 
-    </section>
+<div class="footer-links">
 
-    <!-- ======================================
-            SECTION TRANSITION
-    ======================================= -->
+<h4>
 
-    <section class="premium-transition">
+Support
 
-        <div class="container">
+</h4>
 
-            <div class="transition-content">
+<a href="#">Contact</a>
 
-                <span>
-                    Precision. Simplicity. Intelligence.
-                </span>
+<a href="#">FAQ</a>
 
-                <h2 class="split">
+<a href="#">Warranty</a>
 
-                    Crafted to Feel
-                    as Beautiful as It Looks.
+<a href="#">Privacy Policy</a>
 
-                </h2>
+<a href="#">Terms</a>
 
-                <p>
+</div>
 
-                    Every interaction has been refined to
-                    remove friction, creating an experience
-                    that feels effortless from the very first touch.
+<div class="footer-links">
 
-                </p>
+<h4>
 
-            </div>
+Follow
 
-        </div>
+</h4>
 
-    </section>
+<a href="#">
 
-    <!-- ========= PART 3 STARTS BELOW ========= -->
+Instagram
 
+</a>
 
-    <!-- ======================================
-            INTERACTIVE EXPERIENCE
-    ======================================= -->
+<a href="#">
 
-    <section class="experience" id="experience">
+Facebook
 
-        <div class="container">
+</a>
 
-            <div class="section-heading">
+<a href="#">
 
-                <span class="section-label">
-                    Experience
-                </span>
+YouTube
 
-                <h2 class="split">
-                    Touch the Future.
-                </h2>
+</a>
 
-                <p>
-                    Every control has been recreated using HTML,
-                    CSS and JavaScript to give visitors a realistic
-                    preview of how NT-01 feels in everyday use.
-                </p>
+<a href="#">
 
-            </div>
+LinkedIn
 
-            <div class="dashboard-wrapper">
+</a>
 
-                <div class="dashboard">
+</div>
 
-                    <!-- Left Display -->
+</div>
 
-                    <div class="display display-left">
+<div class="footer-divider"></div>
 
-                        <div class="display-header">
+<div class="footer-bottom">
 
-                            <span>HOME</span>
+<p>
 
-                            <span id="liveTime">
-                                12:45
-                            </span>
+© 2026 NT-01.
+All Rights Reserved.
 
-                        </div>
+</p>
 
-                        <div class="weather-card">
+<p>
 
-                            <div>
+Future Into Reality
 
-                                <h3>29°</h3>
+</p>
 
-                                <p>Sunny</p>
+</div>
 
-                            </div>
+</footer>
 
-                            <div class="weather-icon">
+<!-- ==============================
+BACK TO TOP
+============================== -->
 
-                                ☀
+<button id="topButton">
 
-                            </div>
+↑
 
-                        </div>
+</button>
 
-                        <div class="status-grid">
+<!-- ==============================
+PRELOADER
+============================== -->
 
-                            <div class="status-item">
+<div id="preloader">
 
-                                <small>Humidity</small>
+<div class="loader-circle"></div>
 
-                                <strong>64%</strong>
+<h3>
 
-                            </div>
+NT-01
 
-                            <div class="status-item">
+</h3>
 
-                                <small>Air</small>
+</div>
 
-                                <strong>Good</strong>
+<!-- ==============================
+CUSTOM CURSOR
+============================== -->
 
-                            </div>
+<div class="cursor"></div>
 
-                            <div class="status-item">
+<div class="cursor-dot"></div>
 
-                                <small>Wi-Fi</small>
+<!-- ==============================
+JAVASCRIPT
+============================== -->
 
-                                <strong>Connected</strong>
-
-                            </div>
-
-                            <div class="status-item">
-
-                                <small>Power</small>
-
-                                <strong>Normal</strong>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                    <!-- Right Display -->
-
-                    <div class="display display-right">
-
-                        <div class="display-header">
-
-                            <span>Controls</span>
-
-                            <span>NT-01</span>
-
-                        </div>
-
-                        <div class="switch-list">
-
-                            <div class="switch-row">
-
-                                <span>Living Light</span>
-
-                                <label class="switch">
-
-                                    <input type="checkbox" checked>
-
-                                    <span class="slider"></span>
-
-                                </label>
-
-                            </div>
-
-                            <div class="switch-row">
-
-                                <span>Dining Light</span>
-
-                                <label class="switch">
-
-                                    <input type="checkbox">
-
-                                    <span class="slider"></span>
-
-                                </label>
-
-                            </div>
-
-                            <div class="switch-row">
-
-                                <span>Bedroom</span>
-
-                                <label class="switch">
-
-                                    <input type="checkbox">
-
-                                    <span class="slider"></span>
-
-                                </label>
-
-                            </div>
-
-                            <div class="switch-row">
-
-                                <span>Balcony</span>
-
-                                <label class="switch">
-
-                                    <input type="checkbox">
-
-                                    <span class="slider"></span>
-
-                                </label>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                    <!-- Fan Controller -->
-
-                    <div class="fan-module">
-
-                        <h4>
-
-                            Fan Regulation
-
-                        </h4>
-
-                        <div class="fan-knob">
-
-                            <div class="knob">
-
-                                <div class="indicator"></div>
-
-                            </div>
-
-                        </div>
-
-                        <div class="fan-speed">
-
-                            Speed
-
-                            <strong>
-
-                                65%
-
-                            </strong>
-
-                        </div>
-
-                    </div>
-
-                    <!-- Quick Actions -->
-
-                    <div class="quick-actions">
-
-                        <button>
-
-                            All ON
-
-                        </button>
-
-                        <button>
-
-                            All OFF
-
-                        </button>
-
-                        <button>
-
-                            Night Mode
-
-                        </button>
-
-                        <button>
-
-                            Away
-
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-    <!-- ======================================
-            PROBLEM / SOLUTION
-    ======================================= -->
-
-    <section class="solutions">
-
-        <div class="container">
-
-            <div class="section-heading">
-
-                <span class="section-label">
-
-                    Why NT-01
-
-                </span>
-
-                <h2 class="split">
-
-                    A Better Way to
-                    Interact With Your Home.
-
-                </h2>
-
-                <p>
-
-                    Technology should disappear into your daily
-                    routine. NT-01 replaces clutter with calm,
-                    bringing together elegant design and intuitive
-                    control.
-
-                </p>
-
-            </div>
-
-            <div class="solution-grid">
-
-                <article class="solution-card">
-
-                    <div class="solution-number">
-
-                        01
-
-                    </div>
-
-                    <h3>
-
-                        Simplify Every Wall
-
-                    </h3>
-
-                    <p>
-
-                        Replace traditional switchboards with a
-                        beautifully integrated control system that
-                        enhances your interior instead of interrupting it.
-
-                    </p>
-
-                </article>
-
-                <article class="solution-card">
-
-                    <div class="solution-number">
-
-                        02
-
-                    </div>
-
-                    <h3>
-
-                        Everything in One Place
-
-                    </h3>
-
-                    <p>
-
-                        Lighting, fan regulation, weather,
-                        connectivity and automation are presented
-                        through one refined interface.
-
-                    </p>
-
-                </article>
-
-                <article class="solution-card">
-
-                    <div class="solution-number">
-
-                        03
-
-                    </div>
-
-                    <h3>
-
-                        Built for Tomorrow
-
-                    </h3>
-
-                    <p>
-
-                        Designed with expandability in mind,
-                        allowing your smart home ecosystem to
-                        grow effortlessly over time.
-
-                    </p>
-
-                </article>
-
-            </div>
-
-        </div>
-
-    </section>
-
-    <!-- ======================================
-            SECTION TRANSITION
-    ======================================= -->
-
-    <section class="premium-break">
-
-        <div class="container">
-
-            <div class="center-text">
-
-                <span>
-
-                    The details make the difference.
-
-                </span>
-
-                <h2 class="split">
-
-                    Designed for modern living.
-
-                </h2>
-
-                <p>
-
-                    Beautiful technology deserves a beautiful
-                    presentation. Continue exploring the world of
-                    NT-01 below.
-
-                </p>
-
-            </div>
-
-        </div>
-
-    </section>
-
-    <!-- ========= PART 4 STARTS BELOW ========= -->
-
-
-    <!-- ======================================
-            GALLERY
-    ======================================= -->
-
-    <section class="gallery-section" id="gallery">
-
-        <div class="container">
-
-            <div class="section-heading">
-
-                <span class="section-label">
-                    Gallery
-                </span>
-
-                <h2 class="split">
-                    Crafted for Every Interior.
-                </h2>
-
-                <p>
-                    Explore NT-01 from every angle. Every image
-                    highlights the craftsmanship, precision and
-                    timeless aesthetic behind the product.
-                </p>
-
-            </div>
-
-            <!-- Swiper Gallery -->
-
-            <div class="swiper gallerySwiper">
-
-                <div class="swiper-wrapper">
-
-                    <div class="swiper-slide">
-                        <img src="images/gallery1.jpg" alt="">
-                    </div>
-
-                    <div class="swiper-slide">
-                        <img src="images/gallery2.jpg" alt="">
-                    </div>
-
-                    <div class="swiper-slide">
-                        <img src="images/gallery3.jpg" alt="">
-                    </div>
-
-                    <div class="swiper-slide">
-                        <img src="images/gallery4.jpg" alt="">
-                    </div>
-
-                    <div class="swiper-slide">
-                        <img src="images/gallery5.jpg" alt="">
-                    </div>
-
-                    <div class="swiper-slide">
-                        <img src="images/gallery6.jpg" alt="">
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-    <!-- ======================================
-            VIDEO SHOWCASE
-    ======================================= -->
-
-    <section class="video-showcase">
-
-        <div class="container">
-
-            <div class="video-wrapper">
-
-                <video
-                    autoplay
-                    muted
-                    loop
-                    playsinline>
-
-                    <source
-                        src="videos/product.mp4"
-                        type="video/mp4">
-
-                </video>
-
-            </div>
-
-        </div>
-
-    </section>
-
-    <!-- ======================================
-            RESERVE
-    ======================================= -->
-
-    <section
-        class="reserve-section"
-        id="reserve">
-
-        <div class="container">
-
-            <div class="reserve-box">
-
-                <span class="section-label">
-
-                    Reserve Today
-
-                </span>
-
-                <h2 class="split">
-
-                    Reserve Your NT-01
-
-                </h2>
-
-                <p>
-
-                    Be among the first to experience the future
-                    of home control.
-
-                </p>
-
-                <form id="reserveForm">
-
-                    <input
-                        type="text"
-                        placeholder="Email or Phone Number"
-                        required>
-
-                    <button type="submit">
-
-                        Reserve for Free
-
-                    </button>
-
-                </form>
-
-                <small>
-
-                    No payment required.
-                    We'll notify you the moment NT-01 becomes available.
-
-                </small>
-
-                <div id="successMessage">
-
-                    Thank you.
-                    Your reservation has been received.
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-    <!-- ======================================
-            FOOTER
-    ======================================= -->
-
-    <footer>
-
-        <div class="container footer-grid">
-
-            <div class="footer-brand">
-
-                <img
-                    src="images/logo.png"
-                    alt="Antion">
-
-                <p>
-
-                    Beautiful technology,
-                    thoughtfully designed
-                    for modern living.
-
-                </p>
-
-            </div>
-
-            <div class="footer-links">
-
-                <h4>
-
-                    Navigation
-
-                </h4>
-
-                <a href="#comparison">
-
-                    Before & After
-
-                </a>
-
-                <a href="#features">
-
-                    Features
-
-                </a>
-
-                <a href="#experience">
-
-                    Experience
-
-                </a>
-
-                <a href="#gallery">
-
-                    Gallery
-
-                </a>
-
-                <a href="#reserve">
-
-                    Reserve
-
-                </a>
-
-            </div>
-
-            <div class="footer-links">
-
-                <h4>
-
-                    Company
-
-                </h4>
-
-                <a href="#">
-
-                    About
-
-                </a>
-
-                <a href="#">
-
-                    Contact
-
-                </a>
-
-                <a href="#">
-
-                    Privacy
-
-                </a>
-
-                <a href="#">
-
-                    Terms
-
-                </a>
-
-            </div>
-
-            <div class="footer-links">
-
-                <h4>
-
-                    Follow
-
-                </h4>
-
-                <a href="#">
-
-                    Instagram
-
-                </a>
-
-                <a href="#">
-
-                    Facebook
-
-                </a>
-
-                <a href="#">
-
-                    LinkedIn
-
-                </a>
-
-                <a href="#">
-
-                    YouTube
-
-                </a>
-
-            </div>
-
-        </div>
-
-        <div class="copyright">
-
-            © 2026 Antion.
-            All Rights Reserved.
-
-        </div>
-
-    </footer>
-
-    <!-- ===========================
-            JAVASCRIPT LIBRARIES
-    ============================ -->
-
-    <!-- GSAP -->
-
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js"></script>
-
-    <!-- Lenis -->
-
-    <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/bundled/lenis.min.js"></script>
-
-    <!-- SplitType -->
-
-    <script src="https://unpkg.com/split-type"></script>
-
-    <!-- Swiper -->
-
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-
-    <!-- Custom JS -->
-
-    <script src="script.js"></script>
+<script src="script.js"></script>
 
 </body>
 
