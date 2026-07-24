@@ -1733,6 +1733,76 @@ BOOKING BOX
 }
 
 /*==============================
+BOOKING FORM
+==============================*/
+
+.booking-form{
+
+    margin-top:45px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    gap:20px;
+
+}
+
+.booking-phone{
+
+    width:100%;
+
+    max-width:420px;
+
+    padding:18px 24px;
+
+    border:1px solid rgba(255,255,255,.12);
+
+    outline:none;
+
+    border-radius:999px;
+
+    background:rgba(255,255,255,.04);
+
+    color:#fff;
+
+    font-size:16px;
+
+    text-align:center;
+
+    transition:var(--transition);
+
+}
+
+.booking-phone::placeholder{
+
+    color:#8a8a8a;
+
+}
+
+.booking-phone:focus{
+
+    border-color:rgba(255,255,255,.35);
+
+    background:rgba(255,255,255,.07);
+
+    box-shadow:0 0 0 4px rgba(255,255,255,.04);
+
+}
+
+.booking-form .primary-btn{
+
+    border:none;
+
+    cursor:pointer;
+
+    font:inherit;
+
+}
+
+/*==============================
 BUTTON GROUP
 ==============================*/
 
@@ -1745,8 +1815,6 @@ BUTTON GROUP
     gap:20px;
 
     flex-wrap:wrap;
-
-    margin-top:45px;
 
 }
 
