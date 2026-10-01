@@ -1,481 +1,372 @@
 /*==================================================
-NT-01 Premium Website
-JavaScript Part 1
+INTENYTE Premium Website
+Main Script — Complete Redesign
 ==================================================*/
 
 /*==============================
 PRELOADER
 ==============================*/
 
-window.addEventListener("load", () => {
-
-    const loader = document.getElementById("preloader");
-
-    setTimeout(() => {
-
-        loader.style.opacity = "0";
-        loader.style.visibility = "hidden";
-
-    }, 1200);
-
+window.addEventListener("load", function() {
+    var loader = document.getElementById("preloader");
+    if (loader) {
+        setTimeout(function() {
+            loader.style.opacity = "0";
+            loader.style.visibility = "hidden";
+        }, 1000);
+    }
 });
 
 /*==============================
 BACK TO TOP BUTTON
 ==============================*/
 
-const topButton = document.getElementById("topButton");
+var topButton = document.getElementById("topButton");
 
-window.addEventListener("scroll", () => {
-
-    if (window.scrollY > 400) {
-
-        topButton.style.display = "flex";
-
-    } else {
-
-        topButton.style.display = "none";
-
+window.addEventListener("scroll", function() {
+    if (topButton) {
+        topButton.style.display = window.scrollY > 400 ? "flex" : "none";
     }
-
 });
 
-topButton.addEventListener("click", () => {
-
-    window.scrollTo({
-
-        top: 0,
-        behavior: "smooth"
-
+if (topButton) {
+    topButton.addEventListener("click", function() {
+        window.scrollTo({ top: 0, behavior: "smooth" });
     });
-
-});
+}
 
 /*==============================
-HEADER EFFECT
+HEADER SCROLL EFFECT
 ==============================*/
 
-const header = document.querySelector(".header");
+var header = document.querySelector(".header");
 
-window.addEventListener("scroll", () => {
-
-    if (window.scrollY > 80) {
-
-        header.style.background = "rgba(0,0,0,.72)";
-        header.style.boxShadow = "0 10px 40px rgba(0,0,0,.4)";
-
-    } else {
-
-        header.style.background = "rgba(0,0,0,.35)";
-        header.style.boxShadow = "none";
-
+window.addEventListener("scroll", function() {
+    if (header) {
+        if (window.scrollY > 80) {
+            header.classList.add("scrolled");
+        } else {
+            header.classList.remove("scrolled");
+        }
     }
-
 });
 
 /*==============================
 MOBILE NAVIGATION
 ==============================*/
 
-const menuToggle = document.getElementById("menuToggle");
-const navLinksMenu = document.getElementById("navLinks");
+var menuToggle = document.getElementById("menuToggle");
+var navLinksMenu = document.getElementById("navLinks");
 
 if (menuToggle && navLinksMenu) {
-
-    menuToggle.addEventListener("click", () => {
-
-        const isOpen = navLinksMenu.classList.toggle("open");
-
+    menuToggle.addEventListener("click", function() {
+        var isOpen = navLinksMenu.classList.toggle("open");
         menuToggle.classList.toggle("active", isOpen);
         menuToggle.setAttribute("aria-expanded", String(isOpen));
         document.body.classList.toggle("menu-open", isOpen);
-
     });
 
-    navLinksMenu.querySelectorAll("a").forEach(link => {
-
-        link.addEventListener("click", () => {
-
+    navLinksMenu.querySelectorAll("a").forEach(function(link) {
+        link.addEventListener("click", function() {
             navLinksMenu.classList.remove("open");
             menuToggle.classList.remove("active");
             menuToggle.setAttribute("aria-expanded", "false");
             document.body.classList.remove("menu-open");
-
         });
-
     });
 
-    window.addEventListener("resize", () => {
-
+    window.addEventListener("resize", function() {
         if (window.innerWidth > 900) {
-
             navLinksMenu.classList.remove("open");
             menuToggle.classList.remove("active");
             menuToggle.setAttribute("aria-expanded", "false");
             document.body.classList.remove("menu-open");
-
         }
-
     });
-
 }
 
 /*==============================
 SCROLL REVEAL
 ==============================*/
 
-const revealItems = document.querySelectorAll(
+var revealSelectors = ".compare-card,.feature-card,.glass-card,.gallery-item,.booking-box,.testimonial-card,.spec-item,.viewer-feature,.config-group,.showcase-image,.showcase-info,.product-hero-image,.product-hero-info";
+var revealItems = document.querySelectorAll(revealSelectors);
 
-".compare-card,.feature-card,.glass-card,.gallery-item,.booking-box,.newsletter-card"
-
-);
-
-const reveal = () => {
-
-    revealItems.forEach(item => {
-
-        const top = item.getBoundingClientRect().top;
-
-        if (top < window.innerHeight - 100) {
-
-            item.classList.add("fade-up");
-            item.classList.add("show");
-
+var reveal = function() {
+    revealItems.forEach(function(item) {
+        var top = item.getBoundingClientRect().top;
+        if (top < window.innerHeight - 80) {
+            item.classList.add("fade-up", "show");
         }
-
     });
-
 };
 
 window.addEventListener("scroll", reveal);
-
 reveal();
 
 /*==============================
 CUSTOM CURSOR
 ==============================*/
 
-const cursor = document.querySelector(".cursor");
-const dot = document.querySelector(".cursor-dot");
+var cursor = document.querySelector(".cursor");
+var dot = document.querySelector(".cursor-dot");
 
-window.addEventListener("mousemove", e => {
-
-    cursor.style.left = e.clientX + "px";
-    cursor.style.top = e.clientY + "px";
-
-    dot.style.left = e.clientX + "px";
-    dot.style.top = e.clientY + "px";
-
-});
-
-document.querySelectorAll("a,button").forEach(item => {
-
-    item.addEventListener("mouseenter", () => {
-
-        cursor.style.width = "65px";
-        cursor.style.height = "65px";
-        cursor.style.borderColor = "#ffffff";
-
+if (cursor && dot && window.innerWidth > 768) {
+    window.addEventListener("mousemove", function(e) {
+        cursor.style.left = e.clientX + "px";
+        cursor.style.top = e.clientY + "px";
+        dot.style.left = e.clientX + "px";
+        dot.style.top = e.clientY + "px";
     });
 
-    item.addEventListener("mouseleave", () => {
-
-        cursor.style.width = "40px";
-        cursor.style.height = "40px";
-        cursor.style.borderColor = "rgba(255,255,255,.45)";
-
+    document.querySelectorAll("a,button,.color-swatch,.theme-option,.toggle-switch,.demo-control-card,.demo-room").forEach(function(item) {
+        item.addEventListener("mouseenter", function() {
+            cursor.style.width = "60px";
+            cursor.style.height = "60px";
+            cursor.style.borderColor = "rgba(0,191,165,.5)";
+        });
+        item.addEventListener("mouseleave", function() {
+            cursor.style.width = "40px";
+            cursor.style.height = "40px";
+            cursor.style.borderColor = "rgba(0,191,165,.35)";
+        });
     });
-
-});
-
-/*==============================
-SMOOTH IMAGE HOVER
-==============================*/
-
-const images = document.querySelectorAll(
-
-".gallery-item,.compare-card,.feature-card"
-
-);
-
-images.forEach(card => {
-
-    card.addEventListener("mousemove", e => {
-
-        const rect = card.getBoundingClientRect();
-
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-
-        card.style.background =
-
-        `radial-gradient(circle at ${x}px ${y}px,
-        rgba(255,255,255,.07),
-        rgba(255,255,255,.03) 60%)`;
-
-    });
-
-    card.addEventListener("mouseleave", () => {
-
-        card.style.background =
-
-        "rgba(255,255,255,.04)";
-
-    });
-
-});
-
-/*==============================
-ACTIVE NAVIGATION
-==============================*/
-
-const sections = document.querySelectorAll("section");
-const navLinks = document.querySelectorAll(".nav-links a");
-
-window.addEventListener("scroll", () => {
-
-    let current = "";
-
-    sections.forEach(section => {
-
-        const top = section.offsetTop - 120;
-
-        if (window.scrollY >= top) {
-
-            current = section.getAttribute("id");
-
-        }
-
-    });
-
-    navLinks.forEach(link => {
-
-        link.classList.remove("active");
-
-        if (
-
-            link.getAttribute("href") === "#" + current
-
-        ) {
-
-            link.classList.add("active");
-
-        }
-
-    });
-
-});
-/*==================================================
-NT-01 Premium Website
-JavaScript Part 2
-==================================================*/
-
-/*==============================
-HERO PARALLAX
-==============================*/
-
-const heroImage = document.querySelector(".hero-image");
-
-window.addEventListener("mousemove", (e) => {
-
-    if(!heroImage || window.innerWidth <= 900) return;
-
-    const x = (e.clientX / window.innerWidth - 0.5) * 20;
-    const y = (e.clientY / window.innerHeight - 0.5) * 20;
-
-    heroImage.style.transform =
-        `translate(${x}px,${y}px)`;
-
-});
-
-/*==============================
-FLOATING ANIMATION
-==============================*/
-
-let float = 0;
-
-function floatingAnimation(){
-
-    float += 0.02;
-
-    if(heroImage && window.innerWidth > 900){
-
-        heroImage.style.marginTop =
-            Math.sin(float) * 8 + "px";
-
-    } else if(heroImage){
-
-        heroImage.style.marginTop = "0";
-
-    }
-
-    requestAnimationFrame(floatingAnimation);
-
 }
-
-floatingAnimation();
-
-/*==============================
-MAGNETIC BUTTONS
-==============================*/
-
-document.querySelectorAll(
-".primary-btn,.secondary-btn,.nav-btn"
-).forEach(button=>{
-
-button.addEventListener("mousemove",e=>{
-
-const rect=button.getBoundingClientRect();
-
-const x=e.clientX-rect.left-rect.width/2;
-const y=e.clientY-rect.top-rect.height/2;
-
-button.style.transform=
-`translate(${x*0.18}px,${y*0.18}px)`;
-
-});
-
-button.addEventListener("mouseleave",()=>{
-
-button.style.transform="translate(0,0)";
-
-});
-
-});
 
 /*==============================
 3D CARD TILT
 ==============================*/
 
-document.querySelectorAll(
-
-".feature-card,.compare-card,.glass-card"
-
-).forEach(card=>{
-
-card.addEventListener("mousemove",e=>{
-
-const rect=card.getBoundingClientRect();
-
-const x=e.clientX-rect.left;
-const y=e.clientY-rect.top;
-
-const rotateX=(y-rect.height/2)/18;
-const rotateY=(rect.width/2-x)/18;
-
-card.style.transform=
-
-`perspective(1000px)
-rotateX(${-rotateX}deg)
-rotateY(${rotateY}deg)
-translateY(-8px)`;
-
+document.querySelectorAll(".feature-card,.compare-card,.glass-card,.testimonial-card,.spec-item").forEach(function(card) {
+    card.addEventListener("mousemove", function(e) {
+        var rect = card.getBoundingClientRect();
+        var x = e.clientX - rect.left;
+        var y = e.clientY - rect.top;
+        var rotateX = (y - rect.height / 2) / 20;
+        var rotateY = (rect.width / 2 - x) / 20;
+        card.style.transform = "perspective(800px) rotateX(" + (-rotateX) + "deg) rotateY(" + rotateY + "deg) translateY(-6px)";
+    });
+    card.addEventListener("mouseleave", function() {
+        card.style.transform = "";
+    });
 });
 
-card.addEventListener("mouseleave",()=>{
+/*==============================
+MAGNETIC BUTTONS
+==============================*/
 
-card.style.transform="";
-
-});
-
+document.querySelectorAll(".primary-btn,.secondary-btn,.nav-btn").forEach(function(button) {
+    button.addEventListener("mousemove", function(e) {
+        var rect = button.getBoundingClientRect();
+        var x = e.clientX - rect.left - rect.width / 2;
+        var y = e.clientY - rect.top - rect.height / 2;
+        button.style.transform = "translate(" + (x * 0.15) + "px," + (y * 0.15) + "px)";
+    });
+    button.addEventListener("mouseleave", function() {
+        button.style.transform = "";
+    });
 });
 
 /*==============================
 BUTTON RIPPLE
 ==============================*/
 
-document.querySelectorAll("button,a").forEach(btn=>{
-
-btn.addEventListener("click",function(e){
-
-const ripple=document.createElement("span");
-
-const rect=this.getBoundingClientRect();
-
-const size=Math.max(rect.width,rect.height);
-
-ripple.style.position="absolute";
-ripple.style.width=size+"px";
-ripple.style.height=size+"px";
-ripple.style.borderRadius="50%";
-ripple.style.left=(e.clientX-rect.left-size/2)+"px";
-ripple.style.top=(e.clientY-rect.top-size/2)+"px";
-ripple.style.background="rgba(255,255,255,.25)";
-ripple.style.transform="scale(0)";
-ripple.style.transition=".6s";
-ripple.style.pointerEvents="none";
-
-this.style.position="relative";
-this.style.overflow="hidden";
-
-this.appendChild(ripple);
-
-requestAnimationFrame(()=>{
-ripple.style.transform="scale(4)";
-ripple.style.opacity="0";
-});
-
-setTimeout(()=>{
-ripple.remove();
-},600);
-
-});
-
+document.querySelectorAll("button,a").forEach(function(btn) {
+    btn.addEventListener("click", function(e) {
+        var ripple = document.createElement("span");
+        var rect = this.getBoundingClientRect();
+        var size = Math.max(rect.width, rect.height);
+        ripple.style.cssText = "position:absolute;width:" + size + "px;height:" + size + "px;border-radius:50%;left:" + (e.clientX - rect.left - size / 2) + "px;top:" + (e.clientY - rect.top - size / 2) + "px;background:rgba(0,191,165,.15);transform:scale(0);transition:.6s;pointer-events:none;";
+        this.style.position = "relative";
+        this.style.overflow = "hidden";
+        this.appendChild(ripple);
+        requestAnimationFrame(function() {
+            ripple.style.transform = "scale(4)";
+            ripple.style.opacity = "0";
+        });
+        setTimeout(function() { ripple.remove(); }, 600);
+    });
 });
 
 /*==============================
 SCROLL PROGRESS BAR
 ==============================*/
 
-const progress=document.createElement("div");
-
-progress.style.position="fixed";
-progress.style.left="0";
-progress.style.top="0";
-progress.style.height="3px";
-progress.style.width="0";
-progress.style.background="#ffffff";
-progress.style.zIndex="99999";
-
+var progress = document.createElement("div");
+progress.style.cssText = "position:fixed;left:0;top:0;height:3px;width:0;background:linear-gradient(90deg,#00BFA5,#00E5FF);z-index:99999;transition:width .1s;";
 document.body.appendChild(progress);
 
-window.addEventListener("scroll",()=>{
-
-const total=
-document.documentElement.scrollHeight-
-window.innerHeight;
-
-const percent=
-(window.scrollY/total)*100;
-
-progress.style.width=percent+"%";
-
+window.addEventListener("scroll", function() {
+    var total = document.documentElement.scrollHeight - window.innerHeight;
+    var percent = (window.scrollY / total) * 100;
+    progress.style.width = percent + "%";
 });
+
+/*==============================
+HERO PARALLAX
+==============================*/
+
+var heroImage = document.querySelector(".hero-image");
+
+window.addEventListener("mousemove", function(e) {
+    if (!heroImage || window.innerWidth <= 900) return;
+    var x = (e.clientX / window.innerWidth - 0.5) * 15;
+    var y = (e.clientY / window.innerHeight - 0.5) * 15;
+    heroImage.style.transform = "translate(" + x + "px," + y + "px)";
+});
+
+/*==============================
+FLOATING ANIMATION
+==============================*/
+
+var floatAngle = 0;
+
+function floatingAnimation() {
+    floatAngle += 0.015;
+    if (heroImage && window.innerWidth > 900) {
+        heroImage.style.marginTop = Math.sin(floatAngle) * 6 + "px";
+    }
+    requestAnimationFrame(floatingAnimation);
+}
+
+floatingAnimation();
+
+/*==============================
+CART DRAWER
+==============================*/
+
+var cartToggle = document.getElementById("cartToggle");
+var cartDrawer = document.getElementById("cartDrawer");
+var cartOverlay = document.getElementById("cartOverlay");
+var cartClose = document.getElementById("cartClose");
+var cartBody = document.getElementById("cartBody");
+var cartTotal = document.getElementById("cartTotal");
+
+function openCart() {
+    if (cartDrawer) cartDrawer.classList.add("open");
+    if (cartOverlay) cartOverlay.classList.add("open");
+    renderCartDrawer();
+}
+
+function closeCart() {
+    if (cartDrawer) cartDrawer.classList.remove("open");
+    if (cartOverlay) cartOverlay.classList.remove("open");
+}
+
+function renderCartDrawer() {
+    if (!cartBody || typeof Cart === "undefined") return;
+    var items = Cart.getItems();
+
+    if (items.length === 0) {
+        cartBody.innerHTML = '<div class="cart-empty"><div class="cart-empty-icon">&#128722;</div><h4>Your cart is empty</h4><p>Add the NT-01 to get started.</p></div>';
+    } else {
+        var html = "";
+        items.forEach(function(item) {
+            html += '<div class="cart-item">' +
+                '<div class="cart-item-image"><img src="img/Hero_image.png" alt=""></div>' +
+                '<div class="cart-item-details">' +
+                '<div class="cart-item-name">' + item.name + '</div>' +
+                '<div class="cart-item-variant">' + (item.variant || "Standard") + '</div>' +
+                '<div class="cart-item-price">&#8377;' + Cart.formatPrice(item.price) + '</div>' +
+                '</div>' +
+                '<button class="cart-item-remove" data-id="' + item.id + '">&times;</button>' +
+                '</div>';
+        });
+        cartBody.innerHTML = html;
+
+        cartBody.querySelectorAll(".cart-item-remove").forEach(function(btn) {
+            btn.addEventListener("click", function() {
+                Cart.removeItem(this.dataset.id);
+                renderCartDrawer();
+            });
+        });
+    }
+
+    if (cartTotal) {
+        cartTotal.textContent = "\u20B9" + Cart.formatPrice(Cart.getTotal());
+    }
+}
+
+if (cartToggle) cartToggle.addEventListener("click", openCart);
+if (cartClose) cartClose.addEventListener("click", closeCart);
+if (cartOverlay) cartOverlay.addEventListener("click", closeCart);
+
+document.addEventListener("cartUpdate", function() {
+    renderCartDrawer();
+});
+
+/*==============================
+ADD TO CART (Product Page)
+==============================*/
+
+var addToCartBtn = document.getElementById("addToCartBtn");
+
+if (addToCartBtn) {
+    addToCartBtn.addEventListener("click", function() {
+        var config = null;
+        if (typeof configurator !== "undefined" && configurator.getConfig) {
+            config = configurator.getConfig();
+        }
+
+        var variant = "Standard";
+        if (config) {
+            var themeName = config.theme === "dark" ? "Midnight Black" :
+                           config.theme === "light" ? "Arctic White" :
+                           config.theme === "neon" ? "Neon Glow" : "Ocean Deep";
+            var colorName = config.accentColor === "#00BFA5" ? "Teal" :
+                           config.accentColor === "#2979FF" ? "Blue" :
+                           config.accentColor === "#7C4DFF" ? "Purple" :
+                           config.accentColor === "#FF6D00" ? "Orange" :
+                           config.accentColor === "#FF4081" ? "Pink" : "Cyan";
+            variant = themeName + " / " + colorName;
+        }
+
+        Cart.addItem(variant);
+
+        addToCartBtn.textContent = "Added!";
+        addToCartBtn.style.background = "#00BFA5";
+
+        setTimeout(function() {
+            addToCartBtn.innerHTML = 'Add to Cart <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>';
+            addToCartBtn.style.background = "";
+        }, 1500);
+
+        openCart();
+    });
+}
+
+/*==============================
+CONFIGURATOR CLOCK
+==============================*/
+
+var configClock = document.getElementById("configClock");
+
+function updateConfigClock() {
+    if (!configClock) return;
+    var now = new Date();
+    var h = now.getHours();
+    var m = String(now.getMinutes()).padStart(2, "0");
+    configClock.textContent = h + ":" + m;
+}
+
+if (configClock) {
+    updateConfigClock();
+    setInterval(updateConfigClock, 10000);
+}
 
 /*==============================
 YEAR
 ==============================*/
 
-const year=document.querySelector(".year");
-
-if(year){
-
-year.textContent=
-new Date().getFullYear();
-
-}
+var yearEl = document.querySelector(".year");
+if (yearEl) yearEl.textContent = new Date().getFullYear();
 
 /*==============================
 CONSOLE MESSAGE
 ==============================*/
 
 console.log(
-
-"%cNT-01 Premium Website",
-"font-size:24px;color:white;background:black;padding:12px;border-radius:8px"
-
+    "%cINTENYTE NT-01",
+    "font-size:24px;color:#00BFA5;background:#050505;padding:12px 20px;border-radius:8px;font-weight:bold"
 );
-
-console.log(
-"Designed with ❤"
-);
+console.log("%cFuture Into Reality", "color:#666;font-size:12px");

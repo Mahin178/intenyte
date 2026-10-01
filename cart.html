@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>INTENYTE — Checkout</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- BACKGROUND -->
+<div class="bg-grid"></div>
+<div class="bg-glow glow-1"></div>
+<div class="bg-glow glow-2"></div>
+
+<!-- HEADER -->
+<header class="header">
+<nav class="navbar">
+    <a href="index.html" class="logo">INTENYTE</a>
+    <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="product.html">Product</a></li>
+    </ul>
+    <a href="product.html" class="nav-btn desktop-nav-btn">Continue Shopping</a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+</nav>
+</header>
+
+<!-- CHECKOUT -->
+<section class="checkout-section">
+<div class="checkout-grid">
+    <div class="checkout-form-wrap">
+        <h2>Checkout</h2>
+        <form id="checkoutForm">
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" name="name" placeholder="John Doe" required>
+            </div>
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" name="email" placeholder="john@example.com" required>
+            </div>
+            <div class="form-group">
+                <label>Phone Number</label>
+                <input type="tel" name="phone" placeholder="+91 98765 43210" required>
+            </div>
+            <div class="form-group">
+                <label>Shipping Address</label>
+                <input type="text" name="address" placeholder="Street address" required>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>City</label>
+                    <input type="text" name="city" placeholder="Mumbai" required>
+                </div>
+                <div class="form-group">
+                    <label>Pin Code</label>
+                    <input type="text" name="pincode" placeholder="400001" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>State</label>
+                <select name="state" required>
+                    <option value="">Select State</option>
+                    <option>Andhra Pradesh</option>
+                    <option>Bihar</option>
+                    <option>Delhi</option>
+                    <option>Goa</option>
+                    <option>Gujarat</option>
+                    <option>Haryana</option>
+                    <option>Karnataka</option>
+                    <option>Kerala</option>
+                    <option>Madhya Pradesh</option>
+                    <option>Maharashtra</option>
+                    <option>Punjab</option>
+                    <option>Rajasthan</option>
+                    <option>Tamil Nadu</option>
+                    <option>Telangana</option>
+                    <option>Uttar Pradesh</option>
+                    <option>West Bengal</option>
+                </select>
+            </div>
+            <div style="margin-top:32px;">
+                <button type="submit" class="primary-btn" style="width:100%;padding:18px;">
+                    Place Order
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </button>
+                <p style="text-align:center;margin-top:16px;font-size:13px;color:var(--muted);">
+                    Payment integration coming soon. Your order will be confirmed via email.
+                </p>
+            </div>
+        </form>
+    </div>
+    <div class="checkout-summary">
+        <h3>Order Summary</h3>
+        <div id="checkoutItems"></div>
+        <div class="checkout-total-row">
+            <span>Subtotal</span>
+            <span id="checkoutSubtotal">&#8377;0</span>
+        </div>
+        <div class="checkout-total-row">
+            <span>Shipping</span>
+            <span>Free</span>
+        </div>
+        <div class="checkout-total-row total">
+            <span>Total</span>
+            <span id="checkoutTotal">&#8377;0</span>
+        </div>
+    </div>
+</div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+<div class="footer-bottom" style="padding-top:40px;">
+    <p>&copy; 2026 INTENYTE. All Rights Reserved.</p>
+    <p>Future Into Reality</p>
+</div>
+</footer>
+
+<!-- PRELOADER -->
+<div id="preloader">
+    <div class="loader-circle"></div>
+    <h3>INTENYTE</h3>
+</div>
+
+<script src="js/cart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var items = Cart.getItems();
+    var container = document.getElementById('checkoutItems');
+    var subtotal = document.getElementById('checkoutSubtotal');
+    var total = document.getElementById('checkoutTotal');
+
+    if (items.length === 0) {
+        container.innerHTML = '<div class="cart-empty"><h4>No items in cart</h4><p><a href="product.html" style="color:var(--teal);">Go to product page</a></p></div>';
+        return;
+    }
+
+    var html = '';
+    var sum = 0;
+    items.forEach(function(item) {
+        sum += item.price * item.quantity;
+        html += '<div class="checkout-item">' +
+            '<div class="checkout-item-img"><img src="img/Hero_image.png" alt=""></div>' +
+            '<div><div class="checkout-item-name">' + item.name + '</div>' +
+            '<div class="checkout-item-variant">' + (item.variant || 'Standard') + ' &times; ' + item.quantity + '</div></div>' +
+            '<div class="checkout-item-price">&#8377;' + Cart.formatPrice(item.price * item.quantity) + '</div>' +
+            '</div>';
+    });
+    container.innerHTML = html;
+    subtotal.textContent = '\u20B9' + Cart.formatPrice(sum);
+    total.textContent = '\u20B9' + Cart.formatPrice(sum);
+
+    document.getElementById('checkoutForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        Cart.clear();
+        container.innerHTML = '<div style="text-align:center;padding:40px 20px;">' +
+            '<div style="font-size:48px;margin-bottom:16px;">&#10004;</div>' +
+            '<h4 style="font-size:20px;margin-bottom:8px;">Order Placed!</h4>' +
+            '<p style="color:var(--muted);font-size:14px;">Thank you for your order. We will contact you soon to confirm.</p>' +
+            '<a href="index.html" style="display:inline-block;margin-top:24px;color:var(--teal);">Back to Home</a></div>';
+        subtotal.textContent = '\u20B90';
+        total.textContent = '\u20B90';
+    });
+});
+</script>
+<script src="script.js"></script>
+
+</body>
+</html>
