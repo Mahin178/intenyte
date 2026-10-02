@@ -438,3 +438,42 @@ ORDER FORM — AJAX SUBMIT + SUCCESS SCREEN
         });
     });
 })();
+
+/*==============================
+MOBILE STICKY ORDER BAR
+==============================*/
+
+(function() {
+    var bar = document.getElementById("mobileOrderBar");
+    if (!bar) return;
+
+    var card = document.getElementById("orderForm");
+    var success = document.getElementById("orderSuccess");
+    var cta = document.getElementById("mobOrderCta");
+
+    function updateBar() {
+        var formInView = false;
+
+        if (card) {
+            var r = card.getBoundingClientRect();
+            formInView = r.top < window.innerHeight * 0.8 && r.bottom > 140;
+        }
+
+        var done = success && !success.hidden;
+        var show = window.innerWidth <= 768 && window.scrollY > 420 && !done && !formInView;
+
+        bar.classList.toggle("show", show);
+        bar.setAttribute("aria-hidden", show ? "false" : "true");
+    }
+
+    if (cta) {
+        cta.addEventListener("click", function(e) {
+            e.preventDefault();
+            if (card) card.scrollIntoView({ behavior: "smooth", block: "start" });
+        });
+    }
+
+    window.addEventListener("scroll", updateBar, { passive: true });
+    window.addEventListener("resize", updateBar);
+    updateBar();
+})();
