@@ -345,3 +345,96 @@ console.log(
     "font-size:24px;color:#00BFA5;background:#050505;padding:12px 20px;border-radius:8px;font-weight:bold"
 );
 console.log("%cFuture Into Reality", "color:#666;font-size:12px");
+
+/*==============================
+GALLERY LIGHTBOX
+==============================*/
+
+(function() {
+    var lb = document.createElement("div");
+    lb.className = "lightbox";
+    lb.innerHTML = '<button class="lightbox-close" aria-label="Close gallery">&times;</button><img alt="">';
+    document.body.appendChild(lb);
+
+    var img = lb.querySelector("img");
+
+    function openLightbox(src, alt) {
+        img.src = src;
+        img.alt = alt || "";
+        lb.classList.add("open");
+        document.body.style.overflow = "hidden";
+    }
+
+    function closeLightbox() {
+        lb.classList.remove("open");
+        document.body.style.overflow = "";
+        setTimeout(function() { img.removeAttribute("src"); }, 350);
+    }
+
+    document.addEventListener("click", function(e) {
+        var item = e.target.closest ? e.target.closest(".gallery-item") : null;
+        if (item) {
+            var thumb = item.querySelector("img");
+            if (thumb) openLightbox(thumb.currentSrc || thumb.src, thumb.alt);
+        }
+    });
+
+    lb.addEventListener("click", function(e) {
+        if (e.target === lb || e.target.classList.contains("lightbox-close")) closeLightbox();
+    });
+
+    document.addEventListener("keydown", function(e) {
+        if (e.key === "Escape" && lb.classList.contains("open")) closeLightbox();
+    });
+})();
+
+/*==============================
+ORDER FORM — AJAX SUBMIT + SUCCESS SCREEN
+==============================*/
+
+(function() {
+    var form = document.getElementById("ntOrderForm");
+    if (!form) return;
+
+    var btn = document.getElementById("orderSubmitBtn");
+    var err = document.getElementById("orderFormError");
+    var success = document.getElementById("orderSuccess");
+    var refEl = document.getElementById("orderRef");
+    var head = form.parentElement.querySelector(".ofc-head");
+    var sending = false;
+
+    form.addEventListener("submit", function(e) {
+        e.preventDefault();
+        if (sending) return;
+        if (!form.checkValidity()) { form.reportValidity(); return; }
+
+        sending = true;
+        if (err) err.hidden = true;
+        btn.classList.add("is-loading");
+        btn.disabled = true;
+
+        var ref = "INT-" + String(Date.now()).slice(-6);
+        var data = new FormData(form);
+        data.append("reference", ref);
+
+        fetch(form.action, {
+            method: "POST",
+            body: data,
+            headers: { "Accept": "application/json" }
+        })
+        .then(function(res) {
+            if (!res.ok) throw new Error("submit failed");
+            if (refEl) refEl.textContent = ref;
+            form.hidden = true;
+            if (head) head.hidden = true;
+            success.hidden = false;
+            document.getElementById("orderForm").scrollIntoView({ behavior: "smooth", block: "center" });
+        })
+        .catch(function() {
+            if (err) err.hidden = false;
+            btn.classList.remove("is-loading");
+            btn.disabled = false;
+            sending = false;
+        });
+    });
+})();
