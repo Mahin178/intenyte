@@ -4,6 +4,40 @@ Main Script — Complete Redesign
 ==================================================*/
 
 /*==============================
+CLEAN URL GUARD
+Production: *.html URLs -> clean URLs (/, /product, /cart)
+Local preview (file://): clean links -> real files
+==============================*/
+
+(function() {
+    var loc = window.location;
+
+    if (loc.protocol === "file:") {
+        document.addEventListener("DOMContentLoaded", function() {
+            document.querySelectorAll('a[href]').forEach(function(a) {
+                var href = a.getAttribute("href");
+                if (!href || href.charAt(0) !== "/" || href.indexOf("//") === 0) return;
+                var hash = "";
+                var path = href;
+                var hi = path.indexOf("#");
+                if (hi > -1) { hash = path.slice(hi); path = path.slice(0, hi); }
+                if (path === "/" || path === "") { a.setAttribute("href", "index.html" + hash); return; }
+                if (path.slice(-1) === "/") { a.setAttribute("href", path.slice(1) + "index.html" + hash); return; }
+                a.setAttribute("href", path.slice(1) + ".html" + hash);
+            });
+        });
+        return;
+    }
+
+    var p = loc.pathname;
+    if (p.slice(-5) === ".html") {
+        var clean = p.slice(0, -5);
+        if (clean.slice(-6) === "/index") clean = clean.slice(0, -5);
+        loc.replace(clean + loc.search + loc.hash);
+    }
+})();
+
+/*==============================
 PRELOADER
 ==============================*/
 

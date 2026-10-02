@@ -5,6 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>INTENYTE — Checkout</title>
+<link rel="canonical" href="https://intenyte.com/cart">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -21,12 +22,12 @@
 <!-- HEADER -->
 <header class="header">
 <nav class="navbar">
-    <a href="index.html" class="logo">INTENYTE</a>
+    <a href="/" class="logo">INTENYTE</a>
     <ul class="nav-links" id="navLinks">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="product.html">Product</a></li>
+        <li><a href="/">Home</a></li>
+        <li><a href="/product">Product</a></li>
     </ul>
-    <a href="product.html" class="nav-btn desktop-nav-btn">Continue Shopping</a>
+    <a href="/product" class="nav-btn desktop-nav-btn">Continue Shopping</a>
     <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation" aria-expanded="false">
         <span></span>
         <span></span>
@@ -142,7 +143,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var total = document.getElementById('checkoutTotal');
 
     if (items.length === 0) {
-        container.innerHTML = '<div class="cart-empty"><h4>No items in cart</h4><p><a href="product.html" style="color:var(--teal);">Go to product page</a></p></div>';
+        container.innerHTML = '<div class="cart-empty"><h4>No items in cart</h4><p><a href="/product" style="color:var(--teal);">Go to product page</a></p></div>';
         return;
     }
 
@@ -168,7 +169,7 @@ document.addEventListener('DOMContentLoaded', function() {
             '<div style="font-size:48px;margin-bottom:16px;">&#10004;</div>' +
             '<h4 style="font-size:20px;margin-bottom:8px;">Order Placed!</h4>' +
             '<p style="color:var(--muted);font-size:14px;">Thank you for your order. We will contact you soon to confirm.</p>' +
-            '<a href="index.html" style="display:inline-block;margin-top:24px;color:var(--teal);">Back to Home</a></div>';
+            '<a href="/" style="display:inline-block;margin-top:24px;color:var(--teal);">Back to Home</a></div>';
         subtotal.textContent = '\u20B90';
         total.textContent = '\u20B90';
     });
