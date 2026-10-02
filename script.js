@@ -296,65 +296,6 @@ document.addEventListener("cartUpdate", function() {
 });
 
 /*==============================
-ADD TO CART (Product Page)
-==============================*/
-
-var addToCartBtn = document.getElementById("addToCartBtn");
-
-if (addToCartBtn) {
-    addToCartBtn.addEventListener("click", function() {
-        var config = null;
-        if (typeof configurator !== "undefined" && configurator.getConfig) {
-            config = configurator.getConfig();
-        }
-
-        var variant = "Standard";
-        if (config) {
-            var themeName = config.theme === "dark" ? "Midnight Black" :
-                           config.theme === "light" ? "Arctic White" :
-                           config.theme === "neon" ? "Neon Glow" : "Ocean Deep";
-            var colorName = config.accentColor === "#00BFA5" ? "Teal" :
-                           config.accentColor === "#2979FF" ? "Blue" :
-                           config.accentColor === "#7C4DFF" ? "Purple" :
-                           config.accentColor === "#FF6D00" ? "Orange" :
-                           config.accentColor === "#FF4081" ? "Pink" : "Cyan";
-            variant = themeName + " / " + colorName;
-        }
-
-        Cart.addItem(variant);
-
-        addToCartBtn.textContent = "Added!";
-        addToCartBtn.style.background = "#00BFA5";
-
-        setTimeout(function() {
-            addToCartBtn.innerHTML = 'Add to Cart <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>';
-            addToCartBtn.style.background = "";
-        }, 1500);
-
-        openCart();
-    });
-}
-
-/*==============================
-CONFIGURATOR CLOCK
-==============================*/
-
-var configClock = document.getElementById("configClock");
-
-function updateConfigClock() {
-    if (!configClock) return;
-    var now = new Date();
-    var h = now.getHours();
-    var m = String(now.getMinutes()).padStart(2, "0");
-    configClock.textContent = h + ":" + m;
-}
-
-if (configClock) {
-    updateConfigClock();
-    setInterval(updateConfigClock, 10000);
-}
-
-/*==============================
 YEAR
 ==============================*/
 
