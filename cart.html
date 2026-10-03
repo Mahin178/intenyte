@@ -22,7 +22,7 @@
 <!-- HEADER -->
 <header class="header">
 <nav class="navbar">
-    <a href="/" class="logo">INTENYTE</a>
+    <a href="/" class="logo"><img class="logo-img" src="img/INTENYTE--LOGO.png" alt="INTENYTE logo" width="64" height="64">INTENYTE</a>
     <ul class="nav-links" id="navLinks">
         <li><a href="/">Home</a></li>
         <li><a href="/product">Product</a></li>
@@ -106,7 +106,7 @@
         <div id="checkoutItems"></div>
         <div class="checkout-total-row">
             <span>Subtotal</span>
-            <span id="checkoutSubtotal">&#8377;0</span>
+            <span id="checkoutSubtotal">&#2547;0</span>
         </div>
         <div class="checkout-total-row">
             <span>Shipping</span>
@@ -114,7 +114,7 @@
         </div>
         <div class="checkout-total-row total">
             <span>Total</span>
-            <span id="checkoutTotal">&#8377;0</span>
+            <span id="checkoutTotal">&#2547;0</span>
         </div>
     </div>
 </div>
@@ -155,12 +155,12 @@ document.addEventListener('DOMContentLoaded', function() {
             '<div class="checkout-item-img"><img src="img/Hero_image.png" alt=""></div>' +
             '<div><div class="checkout-item-name">' + item.name + '</div>' +
             '<div class="checkout-item-variant">' + (item.variant || 'Standard') + ' &times; ' + item.quantity + '</div></div>' +
-            '<div class="checkout-item-price">&#8377;' + Cart.formatPrice(item.price * item.quantity) + '</div>' +
+            '<div class="checkout-item-price">&#2547;' + Cart.formatPrice(item.price * item.quantity) + '</div>' +
             '</div>';
     });
     container.innerHTML = html;
-    subtotal.textContent = '\u20B9' + Cart.formatPrice(sum);
-    total.textContent = '\u20B9' + Cart.formatPrice(sum);
+    subtotal.textContent = '৳' + Cart.formatPrice(sum);
+    total.textContent = '৳' + Cart.formatPrice(sum);
 
     document.getElementById('checkoutForm').addEventListener('submit', function(e) {
         e.preventDefault();
@@ -170,8 +170,8 @@ document.addEventListener('DOMContentLoaded', function() {
             '<h4 style="font-size:20px;margin-bottom:8px;">Order Placed!</h4>' +
             '<p style="color:var(--muted);font-size:14px;">Thank you for your order. We will contact you soon to confirm.</p>' +
             '<a href="/" style="display:inline-block;margin-top:24px;color:var(--teal);">Back to Home</a></div>';
-        subtotal.textContent = '\u20B90';
-        total.textContent = '\u20B90';
+        subtotal.textContent = '৳0';
+        total.textContent = '৳0';
     });
 });
 </script>

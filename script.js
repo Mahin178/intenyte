@@ -38,18 +38,23 @@ Local preview (file://): clean links -> real files
 })();
 
 /*==============================
-PRELOADER
+PRELOADER — fast, resilient
 ==============================*/
 
-window.addEventListener("load", function() {
-    var loader = document.getElementById("preloader");
-    if (loader) {
-        setTimeout(function() {
+(function () {
+    var done = false;
+    function hide() {
+        if (done) return; done = true;
+        var loader = document.getElementById("preloader");
+        if (loader) {
             loader.style.opacity = "0";
             loader.style.visibility = "hidden";
-        }, 1000);
+            setTimeout(function () { loader.remove(); }, 700);
+        }
     }
-});
+    window.addEventListener("load", function () { setTimeout(hide, 400); });
+    setTimeout(hide, 2500); // never trap mobile users
+})();
 
 /*==============================
 BACK TO TOP BUTTON
@@ -61,7 +66,7 @@ window.addEventListener("scroll", function() {
     if (topButton) {
         topButton.style.display = window.scrollY > 400 ? "flex" : "none";
     }
-});
+}, { passive: true });
 
 if (topButton) {
     topButton.addEventListener("click", function() {
@@ -83,7 +88,7 @@ window.addEventListener("scroll", function() {
             header.classList.remove("scrolled");
         }
     }
-});
+}, { passive: true });
 
 /*==============================
 MOBILE NAVIGATION
@@ -120,32 +125,36 @@ if (menuToggle && navLinksMenu) {
 }
 
 /*==============================
-SCROLL REVEAL
+SCROLL REVEAL — IntersectionObserver (1 listener, GPU cheap)
 ==============================*/
 
-var revealSelectors = ".compare-card,.feature-card,.glass-card,.gallery-item,.booking-box,.testimonial-card,.spec-item,.viewer-feature,.config-group,.showcase-image,.showcase-info,.product-hero-image,.product-hero-info";
-var revealItems = document.querySelectorAll(revealSelectors);
-
-var reveal = function() {
-    revealItems.forEach(function(item) {
-        var top = item.getBoundingClientRect().top;
-        if (top < window.innerHeight - 80) {
-            item.classList.add("fade-up", "show");
-        }
-    });
-};
-
-window.addEventListener("scroll", reveal);
-reveal();
+(function () {
+    var items = document.querySelectorAll(".compare-card,.feature-card,.glass-card,.gallery-item,.booking-box,.testimonial-card,.spec-item,.viewer-feature,.config-group,.showcase-image,.showcase-info,.product-hero-image,.product-hero-info");
+    if (!items.length) return;
+    if (!("IntersectionObserver" in window)) {
+        items.forEach(function (i) { i.classList.add("fade-up", "show"); });
+        return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+            if (en.isIntersecting) {
+                en.target.classList.add("fade-up", "show");
+                io.unobserve(en.target);
+            }
+        });
+    }, { rootMargin: "0px 0px -8% 0px", threshold: 0.08 });
+    items.forEach(function (i) { i.classList.add("fade-up"); io.observe(i); });
+})();
 
 /*==============================
-CUSTOM CURSOR
+CUSTOM CURSOR — fine pointers only
 ==============================*/
 
 var cursor = document.querySelector(".cursor");
 var dot = document.querySelector(".cursor-dot");
+var finePointer = window.matchMedia && window.matchMedia("(hover:hover) and (pointer:fine)").matches;
 
-if (cursor && dot && window.innerWidth > 768) {
+if (cursor && dot && finePointer && window.innerWidth > 768) {
     window.addEventListener("mousemove", function(e) {
         cursor.style.left = e.clientX + "px";
         cursor.style.top = e.clientY + "px";
@@ -168,9 +177,10 @@ if (cursor && dot && window.innerWidth > 768) {
 }
 
 /*==============================
-3D CARD TILT
+3D CARD TILT — desktop fine-pointers only
 ==============================*/
 
+if (finePointer && window.innerWidth > 900) {
 document.querySelectorAll(".feature-card,.compare-card,.glass-card,.testimonial-card,.spec-item").forEach(function(card) {
     card.addEventListener("mousemove", function(e) {
         var rect = card.getBoundingClientRect();
@@ -184,11 +194,13 @@ document.querySelectorAll(".feature-card,.compare-card,.glass-card,.testimonial-
         card.style.transform = "";
     });
 });
+}
 
 /*==============================
-MAGNETIC BUTTONS
+MAGNETIC BUTTONS — desktop fine-pointers only
 ==============================*/
 
+if (finePointer && window.innerWidth > 900) {
 document.querySelectorAll(".primary-btn,.secondary-btn,.nav-btn").forEach(function(button) {
     button.addEventListener("mousemove", function(e) {
         var rect = button.getBoundingClientRect();
@@ -200,6 +212,7 @@ document.querySelectorAll(".primary-btn,.secondary-btn,.nav-btn").forEach(functi
         button.style.transform = "";
     });
 });
+} // end fine-pointer magnetic guard
 
 /*==============================
 BUTTON RIPPLE
@@ -227,40 +240,52 @@ SCROLL PROGRESS BAR
 ==============================*/
 
 var progress = document.createElement("div");
-progress.style.cssText = "position:fixed;left:0;top:0;height:3px;width:0;background:linear-gradient(90deg,#00BFA5,#00E5FF);z-index:99999;transition:width .1s;";
+progress.style.cssText = "position:fixed;left:0;top:0;height:3px;width:0;background:linear-gradient(90deg,#00BFA5,#00E5FF);z-index:99999;";
 document.body.appendChild(progress);
 
+var progressTicking = false;
 window.addEventListener("scroll", function() {
-    var total = document.documentElement.scrollHeight - window.innerHeight;
-    var percent = (window.scrollY / total) * 100;
-    progress.style.width = percent + "%";
-});
+    if (progressTicking) return;
+    progressTicking = true;
+    requestAnimationFrame(function () {
+        var total = document.documentElement.scrollHeight - window.innerHeight;
+        var percent = total > 0 ? (window.scrollY / total) * 100 : 0;
+        progress.style.width = percent + "%";
+        progressTicking = false;
+    });
+}, { passive: true });
 
 /*==============================
-HERO PARALLAX
+HERO PARALLAX — fine pointers only, rAF throttled
 ==============================*/
 
 var heroImage = document.querySelector(".hero-image");
 
-window.addEventListener("mousemove", function(e) {
-    if (!heroImage || window.innerWidth <= 900) return;
-    var x = (e.clientX / window.innerWidth - 0.5) * 15;
-    var y = (e.clientY / window.innerHeight - 0.5) * 15;
-    heroImage.style.transform = "translate(" + x + "px," + y + "px)";
-});
+if (finePointer) {
+    var px = 0, py = 0, pTick = false;
+    window.addEventListener("mousemove", function(e) {
+        if (!heroImage || window.innerWidth <= 900) return;
+        px = (e.clientX / window.innerWidth - 0.5) * 14;
+        py = (e.clientY / window.innerHeight - 0.5) * 14;
+        if (pTick) return; pTick = true;
+        requestAnimationFrame(function () {
+            heroImage.style.transform = "translate(" + px + "px," + py + "px)";
+            pTick = false;
+        });
+    }, { passive: true });
+}
 
 /*==============================
-FLOATING ANIMATION
+FLOATING ANIMATION — CSS owns it now; JS nudge desktop only
 ==============================*/
 
 var floatAngle = 0;
+var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 function floatingAnimation() {
-    floatAngle += 0.015;
-    if (heroImage && window.innerWidth > 900) {
-        heroImage.style.marginTop = Math.sin(floatAngle) * 6 + "px";
-    }
-    requestAnimationFrame(floatingAnimation);
+    // CSS keyframes own the float now; keep JS idle for battery.
+    // Preserve hook for legacy callers without per-frame layout cost.
+    if (reduceMotion) return;
 }
 
 floatingAnimation();
@@ -301,7 +326,7 @@ function renderCartDrawer() {
                 '<div class="cart-item-details">' +
                 '<div class="cart-item-name">' + item.name + '</div>' +
                 '<div class="cart-item-variant">' + (item.variant || "Standard") + '</div>' +
-                '<div class="cart-item-price">&#8377;' + Cart.formatPrice(item.price) + '</div>' +
+                '<div class="cart-item-price">&#2547;' + Cart.formatPrice(item.price) + '</div>' +
                 '</div>' +
                 '<button class="cart-item-remove" data-id="' + item.id + '">&times;</button>' +
                 '</div>';
@@ -317,7 +342,7 @@ function renderCartDrawer() {
     }
 
     if (cartTotal) {
-        cartTotal.textContent = "\u20B9" + Cart.formatPrice(Cart.getTotal());
+        cartTotal.textContent = "৳" + Cart.formatPrice(Cart.getTotal());
     }
 }
 
