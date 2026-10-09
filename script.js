@@ -378,14 +378,40 @@ GALLERY LIGHTBOX
 (function() {
     var lb = document.createElement("div");
     lb.className = "lightbox";
-    lb.innerHTML = '<button class="lightbox-close" aria-label="Close gallery">&times;</button><img alt="">';
+    lb.innerHTML = '<button class="lightbox-close" aria-label="Close gallery">&times;</button>' +
+        '<div class="lightbox-fig"><img alt="">' +
+        '<div class="lightbox-nav"><button class="lb-btn" id="lbPrev" aria-label="Previous photo">&#8592;</button>' +
+        '<span class="lb-count" id="lbCount"></span>' +
+        '<button class="lb-btn" id="lbNext" aria-label="Next photo">&#8594;</button></div>' +
+        '<p class="lb-cap" id="lbCap"></p></div>';
     document.body.appendChild(lb);
 
     var img = lb.querySelector("img");
+    var cap = lb.querySelector("#lbCap");
+    var count = lb.querySelector("#lbCount");
+    var list = [];
+    var idx = 0;
 
-    function openLightbox(src, alt) {
-        img.src = src;
-        img.alt = alt || "";
+    function collect() {
+        list = Array.prototype.slice.call(document.querySelectorAll(".gallery-item"))
+            .filter(function(el) { return el.offsetParent !== null && !el.classList.contains("hide"); });
+    }
+
+    function render() {
+        var item = list[idx];
+        if (!item) return;
+        var thumb = item.querySelector("img");
+        if (!thumb) return;
+        img.src = thumb.currentSrc || thumb.src;
+        img.alt = thumb.alt || "";
+        cap.textContent = item.getAttribute("data-caption") || thumb.alt || "";
+        count.textContent = (idx + 1) + " / " + list.length;
+    }
+
+    function openLightbox(item) {
+        collect();
+        idx = Math.max(0, list.indexOf(item));
+        render();
         lb.classList.add("open");
         document.body.style.overflow = "hidden";
     }
@@ -396,20 +422,62 @@ GALLERY LIGHTBOX
         setTimeout(function() { img.removeAttribute("src"); }, 350);
     }
 
+    function step(d) {
+        if (!list.length) return;
+        idx = (idx + d + list.length) % list.length;
+        render();
+    }
+
     document.addEventListener("click", function(e) {
         var item = e.target.closest ? e.target.closest(".gallery-item") : null;
-        if (item) {
-            var thumb = item.querySelector("img");
-            if (thumb) openLightbox(thumb.currentSrc || thumb.src, thumb.alt);
-        }
+        if (item) openLightbox(item);
     });
+
+    lb.querySelector("#lbPrev").addEventListener("click", function(e) { e.stopPropagation(); step(-1); });
+    lb.querySelector("#lbNext").addEventListener("click", function(e) { e.stopPropagation(); step(1); });
 
     lb.addEventListener("click", function(e) {
         if (e.target === lb || e.target.classList.contains("lightbox-close")) closeLightbox();
     });
 
     document.addEventListener("keydown", function(e) {
-        if (e.key === "Escape" && lb.classList.contains("open")) closeLightbox();
+        if (!lb.classList.contains("open")) return;
+        if (e.key === "Escape") closeLightbox();
+        if (e.key === "ArrowRight") step(1);
+        if (e.key === "ArrowLeft") step(-1);
+    });
+
+    // swipe support (mobile)
+    var sx = 0;
+    lb.addEventListener("touchstart", function(e) { sx = e.touches[0].clientX; }, { passive: true });
+    lb.addEventListener("touchend", function(e) {
+        var dx = e.changedTouches[0].clientX - sx;
+        if (Math.abs(dx) > 48) step(dx < 0 ? 1 : -1);
+    }, { passive: true });
+})();
+
+/*==============================
+REAL GALLERY THEME FILTER (product page)
+==============================*/
+
+(function() {
+    var bar = document.getElementById("rgFilters");
+    var grid = document.getElementById("rgGrid");
+    if (!bar || !grid) return;
+    var btns = bar.querySelectorAll(".rg-filter");
+    var section = document.getElementById("gallery");
+    var cards = section ? section.querySelectorAll(".gallery-item") : grid.querySelectorAll(".rg-card");
+    btns.forEach(function(b) {
+        b.addEventListener("click", function() {
+            btns.forEach(function(x) { x.classList.remove("active"); });
+            b.classList.add("active");
+            var f = b.getAttribute("data-filter");
+            cards.forEach(function(c) {
+                var show = f === "all" || c.getAttribute("data-theme") === f;
+                c.classList.toggle("hide", !show);
+                if (show) { c.classList.remove("fade-up", "show"); }
+            });
+        });
     });
 })();
 
