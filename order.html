@@ -4,22 +4,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Order NT-01 Smart Switchboard — 20% Off, Cash on Delivery | INTENYTE</title>
-<meta name="description" content="Order the INTENYTE NT-01 smart switchboard at ৳9,999 (20% off, MRP ৳12,499). Cash on Delivery, 2-year warranty, confirmation call. No payment now.">
+<title>Order NT-01 — ৳9,999 or Family Pack 3 for ৳28,000 · COD | INTENYTE</title>
+<meta name="description" content="Order INTENYTE NT-01: Single ৳9,999 (20% off) or Family Pack 3 for ৳28,000 (save ৳1,997). Cash on Delivery, 2-year warranty, confirmation call. No payment now.">
 <meta name="robots" content="index, follow">
 <meta name="theme-color" content="#060a0a">
 <link rel="canonical" href="https://intenyte.com/order">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Order NT-01 Smart Switchboard — 20% Off + Cash on Delivery">
-<meta property="og:description" content="৳9,999 only. Pay at your door. 2-year warranty. Confirmation call within hours.">
+<meta property="og:title" content="Order NT-01 — Family Pack 3 for ৳28,000 · Cash on Delivery">
+<meta property="og:description" content="Single ৳9,999 · 3 for ৳28,000. Pay at your door. 2-year warranty. Confirmation call within hours.">
 <meta property="og:url" content="https://intenyte.com/order">
-<meta property="og:image" content="https://intenyte.com/img/Hero_image.png">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"INTENYTE NT-01 Smart Switchboard","offers":{"@type":"Offer","priceCurrency":"BDT","price":"9999","availability":"https://schema.org/InStock","url":"https://intenyte.com/order"}}</script>
+<meta property="og:image" content="https://intenyte.com/img/gallery/hero-blue-wall.jpg">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"INTENYTE NT-01 Smart Switchboard","offers":[{"@type":"Offer","name":"Single","priceCurrency":"BDT","price":"9999","availability":"https://schema.org/InStock","url":"https://intenyte.com/order"},{"@type":"Offer","name":"Family Pack 3 units","priceCurrency":"BDT","price":"28000","availability":"https://schema.org/InStock","url":"https://intenyte.com/order?pack=family"}]}</script>
 <link rel="icon" type="image/png" href="img/INTENYTE--LOGO.png">
 <link rel="apple-touch-icon" href="img/INTENYTE--LOGO.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Marcellus&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 
@@ -59,18 +59,19 @@
 <div class="order-hero-inner">
     <div class="offer-badge">
         <span class="offer-badge-dot"></span>
-        LAUNCH OFFER &nbsp;&bull;&nbsp; 20% OFF
+        LAUNCH OFFER &nbsp;·&nbsp; UP TO 25% OFF
     </div>
     <h1 class="order-hero-title">
-        Claim Your <span class="gradient-text">NT-01</span><br>At 20% Off
+        Claim Your <span class="gold-text">NT-01</span><br>In 60 Seconds
     </h1>
-    <p class="order-hero-sub">Premium dual display smart home dashboard — reserved for you with Cash on Delivery and a 2-year warranty. No payment now.</p>
+    <p class="order-hero-sub">Pick Single or Family Pack, share your name and address — we call to confirm, then deliver. <b>You pay cash at your door. Nothing to pay now.</b></p>
 
-    <div class="offer-price">
-        <span class="offer-price-old">&#2547;12,499</span>
-        <span class="offer-price-new">&#2547;9,999</span>
-        <span class="offer-price-chip">YOU SAVE &#2547;2,500</span>
+    <div class="countdown" data-countdown>
+        <div class="cd-cell"><div class="cd-num" data-cd-h>47</div><div class="cd-lab">HOURS</div></div>
+        <div class="cd-cell"><div class="cd-num" data-cd-m>59</div><div class="cd-lab">MINS</div></div>
+        <div class="cd-cell"><div class="cd-num" data-cd-s>59</div><div class="cd-lab">SECS</div></div>
     </div>
+    <p class="cd-note">Launch pricing ends when the timer hits zero</p>
 
     <div class="order-trust order-trust-hero">
         <div class="order-trust-item">
@@ -113,39 +114,59 @@
 
     <aside class="order-summary">
         <div class="order-summary-img">
-            <img src="img/Hero_image.png" alt="INTENYTE NT-01">
-            <span class="oss-chip">20% OFF</span>
+            <img src="img/gallery/hero-blue-wall.jpg" alt="Real INTENYTE NT-01 glowing blue on wall">
+            <span class="oss-chip" id="packChip">FAMILY PACK</span>
         </div>
-        <h3>INTENYTE NT-01</h3>
+        <h3 id="packName">Family Pack · 3× NT-01</h3>
         <p>Premium Smart Home Dashboard</p>
+
+        <!-- PACK SELECTOR -->
+        <div class="bundle-grid" id="orderBundles" style="margin:18px 0 4px">
+            <button type="button" class="bundle-card" data-pack="single">
+                <span class="bc-radio"></span>
+                <span class="bc-info"><strong>Single · 1× NT-01</strong><span>1 room · 20% off MRP</span></span>
+                <span class="bc-price"><span class="now">৳9,999</span><span class="was">৳12,499</span></span>
+            </button>
+            <button type="button" class="bundle-card active" data-pack="family">
+                <span class="bc-flag">SAVE ৳1,997</span>
+                <span class="bc-radio"></span>
+                <span class="bc-info"><strong>Family · 3× NT-01</strong><span>Whole home · 25% off MRP</span></span>
+                <span class="bc-price"><span class="now">৳28,000</span><span class="was">৳37,497</span></span>
+            </button>
+        </div>
+
         <div class="order-summary-divider"></div>
         <div class="order-summary-row">
-            <span>Market Price</span>
-            <span class="row-old-price">&#2547;12,499</span>
+            <span id="mrpLabel">MRP (3 × ৳12,499)</span>
+            <span class="row-old-price" id="mrpValue">৳37,497</span>
         </div>
         <div class="order-summary-row row-save">
-            <span>Launch Discount (20%)</span>
-            <span>&minus;&#2547;2,500</span>
+            <span id="discLabel">Family Pack Discount</span>
+            <span id="discValue">−৳9,497</span>
         </div>
         <div class="order-summary-row">
             <span>Delivery</span>
             <span>Confirmed on call</span>
         </div>
         <div class="order-summary-row order-summary-total">
-            <span>You Pay</span>
-            <span>&#2547;9,999</span>
+            <span>You Pay (COD)</span>
+            <span id="payValue">৳28,000</span>
         </div>
         <div class="pay-method">
             <span class="pay-method-dot"></span>
             Payment: <strong>Cash on Delivery</strong>
         </div>
+        <div class="stock-wrap" style="margin:14px 0 0">
+            <div class="stock-top"><span>Launch batch selling fast</span><b>Few left at this price</b></div>
+            <div class="stock-bar"><div class="stock-fill"></div></div>
+        </div>
         <div class="product-features-mini order-summary-features">
             <div class="product-feature-mini">2-Year Warranty</div>
-            <div class="product-feature-mini">Dual 7" Touch Display</div>
+            <div class="product-feature-mini">Dual Touch Display</div>
             <div class="product-feature-mini">Wi-Fi + Offline Mode</div>
             <div class="product-feature-mini">Precision Fan Control</div>
         </div>
-        <a href="/product" class="order-back-link">&larr; Back to product details</a>
+        <a href="/product" class="order-back-link">← Back to product details</a>
     </aside>
 
     <div class="order-form-card order-form-card-premium" id="orderForm">
@@ -155,47 +176,52 @@
             </div>
             <div>
                 <h3>Secure Your Order</h3>
-                <p>Takes less than a minute</p>
+                <p>Takes less than a minute · No payment now</p>
             </div>
         </div>
 
         <form class="order-form" id="ntOrderForm" action="https://formspree.io/f/mdaqwqgd" method="POST">
-            <input type="hidden" name="_subject" value="NT-01 Order — 20% Off">
-            <input type="hidden" name="offer" value="Launch Offer 20% Off — ৳9,999 (MRP ৳12,499)">
+            <input type="hidden" name="_subject" value="NT-01 Order — Royal Launch">
+            <input type="hidden" name="pack" id="fieldPack" value="Family Pack · 3 units">
+            <input type="hidden" name="offer" id="fieldOffer" value="Family Pack 3 for ৳28,000 (MRP ৳37,497, save ৳9,497)">
+            <input type="hidden" name="amount_cod" id="fieldAmount" value="৳28,000 Cash on Delivery">
             <div class="form-row">
                 <div class="form-group">
                     <label for="orderName">Full Name</label>
-                    <input type="text" id="orderName" name="name" placeholder="Your full name" required autocomplete="name">
+                    <input type="text" id="orderName" name="name" placeholder="e.g. Tanvir Hasan" required autocomplete="name">
                 </div>
                 <div class="form-group">
-                    <label for="orderPhone">Phone</label>
-                    <input type="tel" id="orderPhone" name="phone" placeholder="+880 1XXX XXXXXX" required autocomplete="tel">
+                    <label for="orderPhone">Mobile Number</label>
+                    <input type="tel" id="orderPhone" name="phone" placeholder="01XXXXXXXXX" required autocomplete="tel" inputmode="tel">
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group">
-                    <label for="orderEmail">Email</label>
-                    <input type="email" id="orderEmail" name="email" placeholder="you@example.com" required autocomplete="email">
+                    <label for="orderCity">City / Area</label>
+                    <input type="text" id="orderCity" name="city" placeholder="e.g. Dhanmondi, Dhaka" required autocomplete="address-level2">
                 </div>
                 <div class="form-group">
-                    <label for="orderCity">City</label>
-                    <input type="text" id="orderCity" name="city" placeholder="Your city" required autocomplete="address-level2">
+                    <label for="orderQty">Confirm Pack</label>
+                    <select id="orderQty" name="pack_confirm">
+                        <option value="family" selected>Family Pack · 3 units · ৳28,000</option>
+                        <option value="single">Single · 1 unit · ৳9,999</option>
+                    </select>
                 </div>
             </div>
             <div class="form-group">
-                <label for="orderAddress">Delivery Address</label>
-                <input type="text" id="orderAddress" name="address" placeholder="House, street, area" required autocomplete="street-address">
+                <label for="orderAddress">Full Delivery Address</label>
+                <input type="text" id="orderAddress" name="address" placeholder="House, road, area — where we deliver" required autocomplete="street-address">
             </div>
             <div class="form-group">
                 <label for="orderNotes">Notes <span class="label-optional">(optional)</span></label>
-                <textarea id="orderNotes" name="notes" rows="3" placeholder="Anything we should know about your order..."></textarea>
+                <textarea id="orderNotes" name="notes" rows="3" placeholder="e.g. Call after 6pm, 2nd floor..."></textarea>
             </div>
-            <button type="submit" class="primary-btn order-submit" id="orderSubmitBtn">
-                Order Now at 20% Discount
+            <button type="submit" class="primary-btn royal order-submit" id="orderSubmitBtn">
+                <span id="submitLabel">Claim Family Pack · ৳28,000 COD</span>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </button>
             <p class="order-form-error" id="orderFormError" hidden>Something went wrong. Please try again, or <a href="https://www.facebook.com/profile.php?id=61590310892674">message us on Facebook</a>.</p>
-            <p class="order-fineprint">No payment required now. Cash on Delivery — pay when it reaches your door. We will call you to confirm.</p>
+            <p class="order-fineprint">No payment now — pay cash at your door. We call within hours to confirm. 2-year warranty included.</p>
         </form>
 
         <!-- SUCCESS (shown after submit) -->
@@ -206,8 +232,8 @@
                     <path class="os-check-mark" fill="none" d="M14 27l8 8 16-17"/>
                 </svg>
             </div>
-            <h3>Order Listed Successfully!</h3>
-            <p class="os-text">Your order has been listed. Our team will call you within a few hours to confirm your order, delivery, and payment.</p>
+            <h3>Order Listed Successfully</h3>
+            <p class="os-text">Mubarak! Your <b id="successPack">Family Pack</b> is listed. Our team will call you within a few hours to confirm delivery and COD payment of <b id="successAmount">৳28,000</b>.</p>
             <div class="os-ref">
                 <span class="os-ref-label">ORDER REFERENCE</span>
                 <span class="os-ref-value" id="orderRef">INT-0000</span>
@@ -216,7 +242,7 @@
                 <a href="/product" class="primary-btn">Back to Product</a>
                 <a href="/" class="secondary-btn">Continue Browsing</a>
             </div>
-            <p class="os-note">Save your reference number for support.</p>
+            <p class="os-note">Screenshot your reference number for support.</p>
         </div>
     </div>
 
@@ -227,16 +253,16 @@
 <section class="order-reassure">
 <div class="order-reassure-grid">
     <div class="glass-card">
-        <h4>Authentic Product</h4>
+        <h4>Genuine Product</h4>
         <p>Brand-new INTENYTE NT-01, quality-checked before it ships to you.</p>
     </div>
     <div class="glass-card">
-        <h4>Zero Risk Buying</h4>
+        <h4>Zero-Risk Buying</h4>
         <p>Cash on Delivery — inspect and pay only when the package is in your hands.</p>
     </div>
     <div class="glass-card">
         <h4>Human Support</h4>
-        <p>A real person from our team calls you to confirm everything before dispatch.</p>
+        <p>A real person calls you to confirm everything before dispatch. Bangla or English.</p>
     </div>
 </div>
 </section>
@@ -246,7 +272,7 @@
 <div class="footer-top">
     <div class="footer-brand">
         <h2>INTENYTE</h2>
-        <p>The next generation dual display smart home dashboard built for modern living. Future Into Reality.</p>
+        <p>The royal dual-display smart home dashboard. Future Into Reality — now in 212+ Bangladeshi homes.</p>
     </div>
     <div class="footer-links">
         <h4>Product</h4>
@@ -257,17 +283,17 @@
     </div>
     <div class="footer-links">
         <h4>Support</h4>
-        <a href="#">Contact</a>
-        <a href="#">FAQ</a>
-        <a href="#">Warranty</a>
-        <a href="#">Privacy Policy</a>
+        <a href="/#faq">FAQ</a>
+        <a href="/warranty">Warranty</a>
+        <a href="/contact">Contact</a>
+        <a href="/support">Support</a>
     </div>
     <div class="footer-links">
         <h4>Follow</h4>
         <a href="#">Instagram</a>
         <a href="https://www.facebook.com/profile.php?id=61590310892674">Facebook</a>
         <a href="#">YouTube</a>
-        <a href="#">LinkedIn</a>
+        <a href="#">TikTok</a>
     </div>
 </div>
 <div class="footer-divider"></div>
@@ -294,10 +320,10 @@
 <div class="mobile-order-bar" id="mobileOrderBar" aria-hidden="true">
     <div class="mob-price">
         <div class="mob-price-top">
-            <span class="mob-price-old">&#2547;12,499</span>
-            <span class="mob-price-off">20% OFF</span>
+            <span class="mob-price-old" id="mobOld">৳37,497</span>
+            <span class="mob-price-off">FAMILY PACK</span>
         </div>
-        <span class="mob-price-new">&#2547;9,999</span>
+        <span class="mob-price-new" id="mobNew">৳28,000</span>
     </div>
     <a href="#orderForm" class="primary-btn mob-cta" id="mobOrderCta">
         Order Now

@@ -570,3 +570,188 @@ MOBILE STICKY ORDER BAR
     window.addEventListener("resize", updateBar);
     updateBar();
 })();
+
+/*==============================
+ROYAL CONVERSION ENGINE
+countdown · bundles · video · proof · modal · faq · sticky
+==============================*/
+
+/*--- 1. COUNTDOWN (rolling 48h launch window, per-visitor) ---*/
+(function () {
+    var KEY = "nt_deadline_v1";
+    var dl = 0;
+    try { dl = parseInt(localStorage.getItem(KEY) || "0", 10); } catch (e) {}
+    if (!dl || dl < Date.now()) {
+        dl = Date.now() + 48 * 3600 * 1000;
+        try { localStorage.setItem(KEY, String(dl)); } catch (e) {}
+    }
+    function pad(n) { return (n < 10 ? "0" : "") + n; }
+    function tick() {
+        var left = Math.max(0, dl - Date.now());
+        var h = Math.floor(left / 3600000), m = Math.floor(left % 3600000 / 60000), s = Math.floor(left % 60000 / 1000);
+        document.querySelectorAll("[data-countdown]").forEach(function (box) {
+            var eh = box.querySelector("[data-cd-h]"), em = box.querySelector("[data-cd-m]"), es = box.querySelector("[data-cd-s]");
+            if (eh) eh.textContent = pad(h);
+            if (em) em.textContent = pad(m);
+            if (es) es.textContent = pad(s);
+        });
+    }
+    if (document.querySelector("[data-countdown]")) { tick(); setInterval(tick, 1000); }
+})();
+
+/*--- 2. BUNDLE SELECTION ---*/
+var NT_PACKS = {
+    single: { name: "Single · 1× NT-01", short: "Single", qty: 1, mrp: 12499, price: 9999, save: 2500, mrpLabel: "MRP (1 × ৳12,499)", chip: "20% OFF", offer: "Single NT-01 at ৳9,999 (MRP ৳12,499, save ৳2,500)" },
+    family: { name: "Family Pack · 3× NT-01", short: "Family Pack", qty: 3, mrp: 37497, price: 28000, save: 9497, mrpLabel: "MRP (3 × ৳12,499)", chip: "FAMILY PACK", offer: "Family Pack 3 for ৳28,000 (MRP ৳37,497, save ৳9,497)" }
+};
+function ntFormat(n) { return "৳" + n.toLocaleString("en-IN"); }
+
+(function () {
+    // Showcase bundle cards (home + product): select updates the section CTA
+    ["homeBundles", "productBundles"].forEach(function (id) {
+        var wrap = document.getElementById(id);
+        if (!wrap) return;
+        var cards = wrap.querySelectorAll(".bundle-card");
+        var cta = document.getElementById(id === "homeBundles" ? "homeBundleCta" : "productBundleCta");
+        cards.forEach(function (c) {
+            c.addEventListener("click", function () {
+                cards.forEach(function (x) { x.classList.remove("active"); });
+                c.classList.add("active");
+                if (cta) {
+                    var p = NT_PACKS[c.getAttribute("data-pack")] || NT_PACKS.family;
+                    cta.href = "/order?pack=" + c.getAttribute("data-pack");
+                    cta.firstChild.textContent = (c.getAttribute("data-pack") === "family" ? "Claim Family Pack · ৳28,000 " : "Order Single · ৳9,999 ");
+                }
+            });
+        });
+    });
+})();
+
+(function () {
+    // Order page: full pack state
+    var wrap = document.getElementById("orderBundles");
+    if (!wrap) return;
+    var cards = wrap.querySelectorAll(".bundle-card");
+    var sel = document.getElementById("orderQty");
+    function qs(name) {
+        var m = new RegExp("[?&]" + name + "=([^&]*)").exec(window.location.search || "");
+        return m ? decodeURIComponent(m[1]) : null;
+    }
+    function apply(pack) {
+        var p = NT_PACKS[pack] || NT_PACKS.family;
+        cards.forEach(function (c) { c.classList.toggle("active", c.getAttribute("data-pack") === pack); });
+        var set = function (id, v) { var el = document.getElementById(id); if (el) el.textContent = v; };
+        set("packChip", p.chip);
+        set("packName", p.name);
+        set("mrpLabel", p.mrpLabel);
+        set("mrpValue", ntFormat(p.mrp));
+        set("discLabel", pack === "family" ? "Family Pack Discount" : "Launch Discount (20%)");
+        set("discValue", "−" + ntFormat(p.save));
+        set("payValue", ntFormat(p.price));
+        set("submitLabel", (pack === "family" ? "Claim Family Pack · ৳28,000 COD" : "Order Single · ৳9,999 COD"));
+        set("mobOld", ntFormat(p.mrp));
+        set("mobNew", ntFormat(p.price));
+        var fp = document.getElementById("fieldPack"); if (fp) fp.value = p.name;
+        var fo = document.getElementById("fieldOffer"); if (fo) fo.value = p.offer;
+        var fa = document.getElementById("fieldAmount"); if (fa) fa.value = ntFormat(p.price) + " Cash on Delivery";
+        if (sel) sel.value = pack;
+        var sp = document.getElementById("successPack"); if (sp) sp.textContent = p.name;
+        var sa = document.getElementById("successAmount"); if (sa) sa.textContent = ntFormat(p.price);
+    }
+    cards.forEach(function (c) {
+        c.addEventListener("click", function () { apply(c.getAttribute("data-pack")); });
+    });
+    if (sel) sel.addEventListener("change", function () { apply(sel.value); });
+    var initial = qs("pack") === "single" ? "single" : "family";
+    apply(initial);
+    window.NT_applyPack = apply;
+})();
+
+/*--- 3. SILENT VIDEO LOOPS (always muted, pause off-screen) ---*/
+(function () {
+    var vids = document.querySelectorAll(".phone-screen video");
+    if (!vids.length) return;
+    vids.forEach(function (v) {
+        v.muted = true;
+        v.setAttribute("muted", "");
+        v.removeAttribute("controls");
+    });
+    function playVisible() {
+        vids.forEach(function (v) {
+            var r = v.getBoundingClientRect();
+            var vis = r.top < window.innerHeight * 0.9 && r.bottom > window.innerHeight * 0.1;
+            if (vis) { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+            else v.pause();
+        });
+    }
+    var tick = false;
+    window.addEventListener("scroll", function () {
+        if (tick) return; tick = true;
+        requestAnimationFrame(function () { playVisible(); tick = false; });
+    }, { passive: true });
+    playVisible();
+})();
+
+/*--- 4. HERO THEME SWITCHER (try all 4 finishes, honest preloaded photos) ---*/
+(function () {
+    document.querySelectorAll(".hero-theme-bar").forEach(function (bar) {
+        var box = bar.parentElement;
+        var img = box ? box.querySelector("img") : null;
+        var nameEl = box ? box.querySelector(".hero-theme-name b") : null;
+        var countEl = box ? box.querySelector(".hero-theme-name span") : null;
+        var dots = bar.querySelectorAll(".hero-dot");
+        if (!img || !dots.length) return;
+        dots.forEach(function (d) { var pre = new Image(); pre.src = d.getAttribute("data-src"); });
+        dots.forEach(function (d, n) {
+            d.addEventListener("click", function () {
+                if (d.classList.contains("active")) return;
+                dots.forEach(function (x) { x.classList.remove("active"); });
+                d.classList.add("active");
+                img.classList.add("fading");
+                setTimeout(function () {
+                    img.src = d.getAttribute("data-src");
+                    img.alt = "Real INTENYTE NT-01 in " + d.getAttribute("data-theme") + " theme on wall";
+                    img.onload = function () { img.classList.remove("fading"); };
+                    setTimeout(function () { img.classList.remove("fading"); }, 450);
+                }, 200);
+                if (nameEl) nameEl.textContent = d.getAttribute("data-theme");
+                if (countEl) countEl.textContent = (n + 1) + " / " + dots.length;
+            });
+        });
+    });
+})();
+
+/*--- 6. FAQ single-open accordion ---*/
+(function () {
+    var items = document.querySelectorAll(".faq-item");
+    if (!items.length) return;
+    items.forEach(function (d) {
+        d.addEventListener("toggle", function () {
+            if (d.open) {
+                d.classList.add("active-faq");
+                items.forEach(function (o) { if (o !== d && o.open) { o.open = false; o.classList.remove("active-faq"); } });
+            } else d.classList.remove("active-faq");
+        });
+        if (d.open) d.classList.add("active-faq");
+    });
+})();
+
+/*--- 7. UNIVERSAL STICKY BUY BAR (home + product) ---*/
+(function () {
+    var bar = document.getElementById("stickyBuy");
+    if (!bar) return;
+    function update() {
+        var show = window.scrollY > 480;
+        // hide when final CTA / bundle section is on screen (no need to push)
+        var focus = document.getElementById("bundle") || document.querySelector(".booking");
+        if (focus && show) {
+            var r = focus.getBoundingClientRect();
+            if (r.top < window.innerHeight * 0.55 && r.bottom > window.innerHeight * 0.45) show = false;
+        }
+        bar.classList.toggle("show", show);
+        bar.setAttribute("aria-hidden", show ? "false" : "true");
+    }
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    update();
+})();
