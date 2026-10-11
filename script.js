@@ -522,6 +522,16 @@ ORDER FORM — AJAX SUBMIT + SUCCESS SCREEN
             if (head) head.hidden = true;
             success.hidden = false;
             document.getElementById("orderForm").scrollIntoView({ behavior: "smooth", block: "center" });
+            /* Meta Pixel — COD Purchase + Lead (fires once per successful order) */
+            try {
+                var packSel = document.getElementById("orderQty");
+                var packVal = packSel ? packSel.value : "family";
+                var packInfo = (typeof NT_PACKS !== "undefined" && NT_PACKS[packVal]) ? NT_PACKS[packVal] : { price: 28000, qty: 3, name: "Family Pack · 3× NT-01" };
+                if (typeof fbq !== "undefined") {
+                    fbq("track", "Lead", { content_name: packInfo.name, content_category: "COD Order" });
+                    fbq("track", "Purchase", { value: packInfo.price, currency: "BDT", content_name: packInfo.name, content_ids: ["nt-01"], content_type: "product", num_items: packInfo.qty });
+                }
+            } catch (e) {}
         })
         .catch(function() {
             if (err) err.hidden = false;
@@ -754,4 +764,37 @@ function ntFormat(n) { return "৳" + n.toLocaleString("en-IN"); }
     window.addEventListener("scroll", update, { passive: true });
     window.addEventListener("resize", update);
     update();
+})();
+
+/*==============================
+META PIXEL — BUTTON CLICK EVENTS
+AddToCart when shopper picks a pack / clicks order CTA
+==============================*/
+(function () {
+    function pixelAddToCart(pack, value) {
+        try {
+            if (typeof fbq !== "undefined") {
+                fbq("track", "AddToCart", {
+                    content_name: pack || "INTENYTE NT-01",
+                    content_ids: ["nt-01"],
+                    content_type: "product",
+                    value: value || 9999,
+                    currency: "BDT"
+                });
+            }
+        } catch (e) {}
+    }
+    document.addEventListener("click", function (e) {
+        var bundle = e.target.closest ? e.target.closest(".bundle-card") : null;
+        if (bundle) {
+            var p = bundle.getAttribute("data-pack");
+            var info = (typeof NT_PACKS !== "undefined" && NT_PACKS[p]) ? NT_PACKS[p] : null;
+            pixelAddToCart(info ? info.name : p, info ? info.price : 9999);
+            return;
+        }
+        var orderLink = e.target.closest ? e.target.closest('a[href^="/order"], a[href^="order.html"], a[href*="orderForm"]') : null;
+        if (orderLink) {
+            pixelAddToCart("INTENYTE NT-01", 9999);
+        }
+    });
 })();
