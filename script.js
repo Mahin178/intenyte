@@ -13,17 +13,23 @@ Local preview (file://): clean links -> real files
     var loc = window.location;
 
     if (loc.protocol === "file:") {
+        var scriptSrc = document.currentScript ? document.currentScript.src : "";
+        var siteRoot = scriptSrc ? scriptSrc.slice(0, scriptSrc.lastIndexOf("/") + 1) : "";
+        if (!siteRoot) return;
         document.addEventListener("DOMContentLoaded", function() {
             document.querySelectorAll('a[href]').forEach(function(a) {
                 var href = a.getAttribute("href");
                 if (!href || href.charAt(0) !== "/" || href.indexOf("//") === 0) return;
                 var hash = "";
+                var query = "";
                 var path = href;
                 var hi = path.indexOf("#");
                 if (hi > -1) { hash = path.slice(hi); path = path.slice(0, hi); }
-                if (path === "/" || path === "") { a.setAttribute("href", "index.html" + hash); return; }
-                if (path.slice(-1) === "/") { a.setAttribute("href", path.slice(1) + "index.html" + hash); return; }
-                a.setAttribute("href", path.slice(1) + ".html" + hash);
+                var qi = path.indexOf("?");
+                if (qi > -1) { query = path.slice(qi); path = path.slice(0, qi); }
+                if (path === "/" || path === "") { a.setAttribute("href", siteRoot + "index.html" + query + hash); return; }
+                if (path.slice(-1) === "/") { a.setAttribute("href", siteRoot + path.slice(1) + "index.html" + query + hash); return; }
+                a.setAttribute("href", siteRoot + path.slice(1) + ".html" + query + hash);
             });
         });
         return;
@@ -98,29 +104,33 @@ var menuToggle = document.getElementById("menuToggle");
 var navLinksMenu = document.getElementById("navLinks");
 
 if (menuToggle && navLinksMenu) {
+    function setMenu(open) {
+        navLinksMenu.classList.toggle("open", open);
+        menuToggle.classList.toggle("active", open);
+        menuToggle.setAttribute("aria-expanded", String(open));
+        document.body.classList.toggle("menu-open", open);
+    }
+
     menuToggle.addEventListener("click", function() {
-        var isOpen = navLinksMenu.classList.toggle("open");
-        menuToggle.classList.toggle("active", isOpen);
-        menuToggle.setAttribute("aria-expanded", String(isOpen));
-        document.body.classList.toggle("menu-open", isOpen);
+        setMenu(!navLinksMenu.classList.contains("open"));
     });
 
     navLinksMenu.querySelectorAll("a").forEach(function(link) {
-        link.addEventListener("click", function() {
-            navLinksMenu.classList.remove("open");
-            menuToggle.classList.remove("active");
-            menuToggle.setAttribute("aria-expanded", "false");
-            document.body.classList.remove("menu-open");
-        });
+        link.addEventListener("click", function() { setMenu(false); });
+    });
+
+    document.addEventListener("click", function(e) {
+        if (!navLinksMenu.classList.contains("open")) return;
+        if (navLinksMenu.contains(e.target) || menuToggle.contains(e.target)) return;
+        setMenu(false);
+    });
+
+    document.addEventListener("keydown", function(e) {
+        if (e.key === "Escape" && navLinksMenu.classList.contains("open")) setMenu(false);
     });
 
     window.addEventListener("resize", function() {
-        if (window.innerWidth > 900) {
-            navLinksMenu.classList.remove("open");
-            menuToggle.classList.remove("active");
-            menuToggle.setAttribute("aria-expanded", "false");
-            document.body.classList.remove("menu-open");
-        }
+        if (window.innerWidth > 900) setMenu(false);
     });
 }
 
@@ -147,117 +157,10 @@ SCROLL REVEAL — IntersectionObserver (1 listener, GPU cheap)
 })();
 
 /*==============================
-CUSTOM CURSOR — fine pointers only
-==============================*/
-
-var cursor = document.querySelector(".cursor");
-var dot = document.querySelector(".cursor-dot");
-var finePointer = window.matchMedia && window.matchMedia("(hover:hover) and (pointer:fine)").matches;
-
-if (cursor && dot && finePointer && window.innerWidth > 768) {
-    window.addEventListener("mousemove", function(e) {
-        cursor.style.left = e.clientX + "px";
-        cursor.style.top = e.clientY + "px";
-        dot.style.left = e.clientX + "px";
-        dot.style.top = e.clientY + "px";
-    });
-
-    document.querySelectorAll("a,button,.color-swatch,.theme-option,.toggle-switch,.demo-control-card,.demo-room").forEach(function(item) {
-        item.addEventListener("mouseenter", function() {
-            cursor.style.width = "60px";
-            cursor.style.height = "60px";
-            cursor.style.borderColor = "rgba(0,191,165,.5)";
-        });
-        item.addEventListener("mouseleave", function() {
-            cursor.style.width = "40px";
-            cursor.style.height = "40px";
-            cursor.style.borderColor = "rgba(0,191,165,.35)";
-        });
-    });
-}
-
-/*==============================
-3D CARD TILT — desktop fine-pointers only
-==============================*/
-
-if (finePointer && window.innerWidth > 900) {
-document.querySelectorAll(".feature-card,.compare-card,.glass-card,.testimonial-card,.spec-item").forEach(function(card) {
-    card.addEventListener("mousemove", function(e) {
-        var rect = card.getBoundingClientRect();
-        var x = e.clientX - rect.left;
-        var y = e.clientY - rect.top;
-        var rotateX = (y - rect.height / 2) / 20;
-        var rotateY = (rect.width / 2 - x) / 20;
-        card.style.transform = "perspective(800px) rotateX(" + (-rotateX) + "deg) rotateY(" + rotateY + "deg) translateY(-6px)";
-    });
-    card.addEventListener("mouseleave", function() {
-        card.style.transform = "";
-    });
-});
-}
-
-/*==============================
-MAGNETIC BUTTONS — desktop fine-pointers only
-==============================*/
-
-if (finePointer && window.innerWidth > 900) {
-document.querySelectorAll(".primary-btn,.secondary-btn,.nav-btn").forEach(function(button) {
-    button.addEventListener("mousemove", function(e) {
-        var rect = button.getBoundingClientRect();
-        var x = e.clientX - rect.left - rect.width / 2;
-        var y = e.clientY - rect.top - rect.height / 2;
-        button.style.transform = "translate(" + (x * 0.15) + "px," + (y * 0.15) + "px)";
-    });
-    button.addEventListener("mouseleave", function() {
-        button.style.transform = "";
-    });
-});
-} // end fine-pointer magnetic guard
-
-/*==============================
-BUTTON RIPPLE
-==============================*/
-
-document.querySelectorAll("button,a").forEach(function(btn) {
-    btn.addEventListener("click", function(e) {
-        var ripple = document.createElement("span");
-        var rect = this.getBoundingClientRect();
-        var size = Math.max(rect.width, rect.height);
-        ripple.style.cssText = "position:absolute;width:" + size + "px;height:" + size + "px;border-radius:50%;left:" + (e.clientX - rect.left - size / 2) + "px;top:" + (e.clientY - rect.top - size / 2) + "px;background:rgba(0,191,165,.15);transform:scale(0);transition:.6s;pointer-events:none;";
-        this.style.position = "relative";
-        this.style.overflow = "hidden";
-        this.appendChild(ripple);
-        requestAnimationFrame(function() {
-            ripple.style.transform = "scale(4)";
-            ripple.style.opacity = "0";
-        });
-        setTimeout(function() { ripple.remove(); }, 600);
-    });
-});
-
-/*==============================
-SCROLL PROGRESS BAR
-==============================*/
-
-var progress = document.createElement("div");
-progress.style.cssText = "position:fixed;left:0;top:0;height:3px;width:0;background:linear-gradient(90deg,#00BFA5,#00E5FF);z-index:99999;";
-document.body.appendChild(progress);
-
-var progressTicking = false;
-window.addEventListener("scroll", function() {
-    if (progressTicking) return;
-    progressTicking = true;
-    requestAnimationFrame(function () {
-        var total = document.documentElement.scrollHeight - window.innerHeight;
-        var percent = total > 0 ? (window.scrollY / total) * 100 : 0;
-        progress.style.width = percent + "%";
-        progressTicking = false;
-    });
-}, { passive: true });
-
-/*==============================
 HERO PARALLAX — fine pointers only, rAF throttled
 ==============================*/
+
+var finePointer = window.matchMedia && window.matchMedia("(hover:hover) and (pointer:fine)").matches;
 
 var heroImage = document.querySelector(".hero-image");
 
@@ -269,90 +172,11 @@ if (finePointer) {
         py = (e.clientY / window.innerHeight - 0.5) * 14;
         if (pTick) return; pTick = true;
         requestAnimationFrame(function () {
-            heroImage.style.transform = "translate(" + px + "px," + py + "px)";
+            heroImage.style.transform = "translate(" + px + "px," + py + "px) scale(1.03)";
             pTick = false;
         });
     }, { passive: true });
 }
-
-/*==============================
-FLOATING ANIMATION — CSS owns it now; JS nudge desktop only
-==============================*/
-
-var floatAngle = 0;
-var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-function floatingAnimation() {
-    // CSS keyframes own the float now; keep JS idle for battery.
-    // Preserve hook for legacy callers without per-frame layout cost.
-    if (reduceMotion) return;
-}
-
-floatingAnimation();
-
-/*==============================
-CART DRAWER
-==============================*/
-
-var cartToggle = document.getElementById("cartToggle");
-var cartDrawer = document.getElementById("cartDrawer");
-var cartOverlay = document.getElementById("cartOverlay");
-var cartClose = document.getElementById("cartClose");
-var cartBody = document.getElementById("cartBody");
-var cartTotal = document.getElementById("cartTotal");
-
-function openCart() {
-    if (cartDrawer) cartDrawer.classList.add("open");
-    if (cartOverlay) cartOverlay.classList.add("open");
-    renderCartDrawer();
-}
-
-function closeCart() {
-    if (cartDrawer) cartDrawer.classList.remove("open");
-    if (cartOverlay) cartOverlay.classList.remove("open");
-}
-
-function renderCartDrawer() {
-    if (!cartBody || typeof Cart === "undefined") return;
-    var items = Cart.getItems();
-
-    if (items.length === 0) {
-        cartBody.innerHTML = '<div class="cart-empty"><div class="cart-empty-icon">&#128722;</div><h4>Your cart is empty</h4><p>Add the NT-01 to get started.</p></div>';
-    } else {
-        var html = "";
-        items.forEach(function(item) {
-            html += '<div class="cart-item">' +
-                '<div class="cart-item-image"><img src="img/Hero_image.png" alt=""></div>' +
-                '<div class="cart-item-details">' +
-                '<div class="cart-item-name">' + item.name + '</div>' +
-                '<div class="cart-item-variant">' + (item.variant || "Standard") + '</div>' +
-                '<div class="cart-item-price">&#2547;' + Cart.formatPrice(item.price) + '</div>' +
-                '</div>' +
-                '<button class="cart-item-remove" data-id="' + item.id + '">&times;</button>' +
-                '</div>';
-        });
-        cartBody.innerHTML = html;
-
-        cartBody.querySelectorAll(".cart-item-remove").forEach(function(btn) {
-            btn.addEventListener("click", function() {
-                Cart.removeItem(this.dataset.id);
-                renderCartDrawer();
-            });
-        });
-    }
-
-    if (cartTotal) {
-        cartTotal.textContent = "৳" + Cart.formatPrice(Cart.getTotal());
-    }
-}
-
-if (cartToggle) cartToggle.addEventListener("click", openCart);
-if (cartClose) cartClose.addEventListener("click", closeCart);
-if (cartOverlay) cartOverlay.addEventListener("click", closeCart);
-
-document.addEventListener("cartUpdate", function() {
-    renderCartDrawer();
-});
 
 /*==============================
 YEAR
@@ -376,10 +200,12 @@ GALLERY LIGHTBOX
 ==============================*/
 
 (function() {
+    if (!document.querySelector(".gallery-item")) return;
+    var PLACEHOLDER = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
     var lb = document.createElement("div");
     lb.className = "lightbox";
     lb.innerHTML = '<button class="lightbox-close" aria-label="Close gallery">&times;</button>' +
-        '<div class="lightbox-fig"><img alt="">' +
+        '<div class="lightbox-fig"><img alt="" src="' + PLACEHOLDER + '">' +
         '<div class="lightbox-nav"><button class="lb-btn" id="lbPrev" aria-label="Previous photo">&#8592;</button>' +
         '<span class="lb-count" id="lbCount"></span>' +
         '<button class="lb-btn" id="lbNext" aria-label="Next photo">&#8594;</button></div>' +
@@ -419,7 +245,7 @@ GALLERY LIGHTBOX
     function closeLightbox() {
         lb.classList.remove("open");
         document.body.style.overflow = "";
-        setTimeout(function() { img.removeAttribute("src"); }, 350);
+        setTimeout(function() { img.src = PLACEHOLDER; }, 350);
     }
 
     function step(d) {
@@ -522,6 +348,7 @@ ORDER FORM — AJAX SUBMIT + SUCCESS SCREEN
             if (head) head.hidden = true;
             success.hidden = false;
             document.getElementById("orderForm").scrollIntoView({ behavior: "smooth", block: "center" });
+            window.dispatchEvent(new Event("scroll"));
             /* Meta Pixel — COD Purchase + Lead (fires once per successful order) */
             try {
                 var packSel = document.getElementById("orderQty");
@@ -543,6 +370,46 @@ ORDER FORM — AJAX SUBMIT + SUCCESS SCREEN
 })();
 
 /*==============================
+CONTACT FORM — AJAX SUBMIT
+==============================*/
+
+(function() {
+    var form = document.getElementById("contactForm");
+    if (!form) return;
+
+    var btn = document.getElementById("contactSubmitBtn");
+    var err = document.getElementById("contactFormError");
+    var ok = document.getElementById("contactFormSuccess");
+    var sending = false;
+
+    form.addEventListener("submit", function(e) {
+        e.preventDefault();
+        if (sending) return;
+        if (!form.checkValidity()) { form.reportValidity(); return; }
+
+        sending = true;
+        if (err) err.hidden = true;
+        if (btn) { btn.disabled = true; btn.classList.add("is-loading"); }
+
+        fetch(form.action, {
+            method: "POST",
+            body: new FormData(form),
+            headers: { "Accept": "application/json" }
+        })
+        .then(function(res) {
+            if (!res.ok) throw new Error("submit failed");
+            form.hidden = true;
+            if (ok) { ok.hidden = false; ok.scrollIntoView({ behavior: "smooth", block: "center" }); }
+        })
+        .catch(function() {
+            if (err) err.hidden = false;
+            if (btn) { btn.disabled = false; btn.classList.remove("is-loading"); }
+            sending = false;
+        });
+    });
+})();
+
+/*==============================
 MOBILE STICKY ORDER BAR
 ==============================*/
 
@@ -553,6 +420,7 @@ MOBILE STICKY ORDER BAR
     var card = document.getElementById("orderForm");
     var success = document.getElementById("orderSuccess");
     var cta = document.getElementById("mobOrderCta");
+    var footer = document.querySelector(".footer");
 
     function updateBar() {
         var formInView = false;
@@ -562,8 +430,14 @@ MOBILE STICKY ORDER BAR
             formInView = r.top < window.innerHeight * 0.8 && r.bottom > 140;
         }
 
+        var footerInView = false;
+        if (footer) {
+            var f = footer.getBoundingClientRect();
+            footerInView = f.top < window.innerHeight;
+        }
+
         var done = success && !success.hidden;
-        var show = window.innerWidth <= 768 && window.scrollY > 420 && !done && !formInView;
+        var show = window.innerWidth <= 768 && window.scrollY > 420 && !done && !formInView && !footerInView;
 
         bar.classList.toggle("show", show);
         bar.setAttribute("aria-hidden", show ? "false" : "true");
@@ -583,36 +457,13 @@ MOBILE STICKY ORDER BAR
 
 /*==============================
 ROYAL CONVERSION ENGINE
-countdown · bundles · video · proof · modal · faq · sticky
+bundles · video · theme · faq
 ==============================*/
 
-/*--- 1. COUNTDOWN (rolling 48h launch window, per-visitor) ---*/
-(function () {
-    var KEY = "nt_deadline_v1";
-    var dl = 0;
-    try { dl = parseInt(localStorage.getItem(KEY) || "0", 10); } catch (e) {}
-    if (!dl || dl < Date.now()) {
-        dl = Date.now() + 48 * 3600 * 1000;
-        try { localStorage.setItem(KEY, String(dl)); } catch (e) {}
-    }
-    function pad(n) { return (n < 10 ? "0" : "") + n; }
-    function tick() {
-        var left = Math.max(0, dl - Date.now());
-        var h = Math.floor(left / 3600000), m = Math.floor(left % 3600000 / 60000), s = Math.floor(left % 60000 / 1000);
-        document.querySelectorAll("[data-countdown]").forEach(function (box) {
-            var eh = box.querySelector("[data-cd-h]"), em = box.querySelector("[data-cd-m]"), es = box.querySelector("[data-cd-s]");
-            if (eh) eh.textContent = pad(h);
-            if (em) em.textContent = pad(m);
-            if (es) es.textContent = pad(s);
-        });
-    }
-    if (document.querySelector("[data-countdown]")) { tick(); setInterval(tick, 1000); }
-})();
-
-/*--- 2. BUNDLE SELECTION ---*/
+/*--- 1. BUNDLE SELECTION ---*/
 var NT_PACKS = {
-    single: { name: "Single · 1× NT-01", short: "Single", qty: 1, mrp: 12499, price: 9999, save: 2500, mrpLabel: "MRP (1 × ৳12,499)", chip: "20% OFF", offer: "Single NT-01 at ৳9,999 (MRP ৳12,499, save ৳2,500)" },
-    family: { name: "Family Pack · 3× NT-01", short: "Family Pack", qty: 3, mrp: 37497, price: 28000, save: 9497, mrpLabel: "MRP (3 × ৳12,499)", chip: "FAMILY PACK", offer: "Family Pack 3 for ৳28,000 (MRP ৳37,497, save ৳9,497)" }
+    single: { name: "Single · 1× NT-01", short: "Single", qty: 1, list: 9999, price: 9999, save: 0, mrpLabel: "NT-01 × 1", chip: "SINGLE", offer: "Single NT-01 at ৳9,999" },
+    family: { name: "Family Pack · 3× NT-01", short: "Family Pack", qty: 3, list: 29997, price: 28000, save: 1997, mrpLabel: "3 × NT-01", chip: "FAMILY PACK", offer: "Family Pack: 3 NT-01 for ৳28,000 (save ৳1,997 vs 3 singles)" }
 };
 function ntFormat(n) { return "৳" + n.toLocaleString("en-IN"); }
 
@@ -654,12 +505,17 @@ function ntFormat(n) { return "৳" + n.toLocaleString("en-IN"); }
         set("packChip", p.chip);
         set("packName", p.name);
         set("mrpLabel", p.mrpLabel);
-        set("mrpValue", ntFormat(p.mrp));
-        set("discLabel", pack === "family" ? "Family Pack Discount" : "Launch Discount (20%)");
+        set("mrpValue", ntFormat(p.list));
+        set("discLabel", "Family Pack saving");
         set("discValue", "−" + ntFormat(p.save));
+        var saveRow = document.getElementById("packSaveRow");
+        if (saveRow) saveRow.hidden = !p.save;
         set("payValue", ntFormat(p.price));
         set("submitLabel", (pack === "family" ? "Claim Family Pack · ৳28,000 COD" : "Order Single · ৳9,999 COD"));
-        set("mobOld", ntFormat(p.mrp));
+        var mobOld = document.getElementById("mobOld");
+        if (mobOld) { mobOld.textContent = ntFormat(p.list); mobOld.hidden = !p.save; }
+        var mobOff = document.getElementById("mobOff");
+        if (mobOff) mobOff.textContent = p.save ? "SAVE " + ntFormat(p.save) : "SINGLE";
         set("mobNew", ntFormat(p.price));
         var fp = document.getElementById("fieldPack"); if (fp) fp.value = p.name;
         var fo = document.getElementById("fieldOffer"); if (fo) fo.value = p.offer;
@@ -705,8 +561,10 @@ function ntFormat(n) { return "৳" + n.toLocaleString("en-IN"); }
 /*--- 4. HERO THEME SWITCHER (try all 4 finishes, honest preloaded photos) ---*/
 (function () {
     document.querySelectorAll(".hero-theme-bar").forEach(function (bar) {
+        if (!bar.getClientRects().length) return;
         var box = bar.parentElement;
-        var img = box ? box.querySelector("img") : null;
+        var img = box ? (box.querySelector(".hero-image") || box.querySelector("img")) : null;
+        var blur = box ? box.querySelector(".hero-image-blur") : null;
         var nameEl = box ? box.querySelector(".hero-theme-name b") : null;
         var countEl = box ? box.querySelector(".hero-theme-name span") : null;
         var dots = bar.querySelectorAll(".hero-dot");
@@ -720,6 +578,7 @@ function ntFormat(n) { return "৳" + n.toLocaleString("en-IN"); }
                 img.classList.add("fading");
                 setTimeout(function () {
                     img.src = d.getAttribute("data-src");
+                    if (blur) blur.src = d.getAttribute("data-src");
                     img.alt = "Real INTENYTE NT-01 in " + d.getAttribute("data-theme") + " theme on wall";
                     img.onload = function () { img.classList.remove("fading"); };
                     setTimeout(function () { img.classList.remove("fading"); }, 450);
@@ -744,26 +603,6 @@ function ntFormat(n) { return "৳" + n.toLocaleString("en-IN"); }
         });
         if (d.open) d.classList.add("active-faq");
     });
-})();
-
-/*--- 7. UNIVERSAL STICKY BUY BAR (home + product) ---*/
-(function () {
-    var bar = document.getElementById("stickyBuy");
-    if (!bar) return;
-    function update() {
-        var show = window.scrollY > 480;
-        // hide when final CTA / bundle section is on screen (no need to push)
-        var focus = document.getElementById("bundle") || document.querySelector(".booking");
-        if (focus && show) {
-            var r = focus.getBoundingClientRect();
-            if (r.top < window.innerHeight * 0.55 && r.bottom > window.innerHeight * 0.45) show = false;
-        }
-        bar.classList.toggle("show", show);
-        bar.setAttribute("aria-hidden", show ? "false" : "true");
-    }
-    window.addEventListener("scroll", update, { passive: true });
-    window.addEventListener("resize", update);
-    update();
 })();
 
 /*==============================
